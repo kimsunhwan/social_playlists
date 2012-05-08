@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120507220455) do
+ActiveRecord::Schema.define(:version => 20120508031400) do
+
+  create_table "playlists", :force => true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.integer  "upvotes"
+    t.integer  "downvotes"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "name"
@@ -25,5 +34,17 @@ ActiveRecord::Schema.define(:version => 20120507220455) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
+
+  create_table "videos", :force => true do |t|
+    t.string   "name"
+    t.string   "site_code"
+    t.integer  "type_id"
+    t.float    "length"
+    t.integer  "upvotes"
+    t.integer  "downvotes"
+    t.integer  "views"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end

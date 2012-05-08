@@ -1,0 +1,13 @@
+<%= provide(:title, 'Search') %>
+<h1>Search for Videos</h1>
+
+<span class="row">
+<%= form_tag(vsearch_path, :method => 'get') do %>
+	<%= text_field_tag(:q) %>
+	<%= submit_tag("Search", :class => "btn btn-large btn-primary") %>
+<% end %>
+</span>
+
+<% if @query then
+	render 'search', :locals => {:query => @query}
+end %>

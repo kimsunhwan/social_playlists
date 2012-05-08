@@ -9,3 +9,11 @@
     </section>
   </aside>
 </div>
+<div class="user-playlists">
+	<h3>Playlists</h3>
+	<% if @user.playlists.any? then %>
+
+	<% else %>
+		You don't currently have any playlists.
+	<% end %>
+</div>
