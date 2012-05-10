@@ -1,0 +1,15 @@
+<% if playlist && playlist.videos.any? then %>
+	<div class="playlist-container">
+		<table>
+			<tr>
+				<% playlist.videos.each do |video| %>
+					<td>
+						<div class="video-thumbnail">
+							<img src="http://img.youtube.com/vi/<%= video.site_code %>/default.jpg" alt="<%= video.name %>"/>
+						</div>
+					</td>
+				<% end %>
+			</tr>
+		</table>
+	</div>
+<% end %>
