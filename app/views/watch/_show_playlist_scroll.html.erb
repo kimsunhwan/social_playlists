@@ -1,0 +1,32 @@
+<% if playlist && playlist.videos.any? then %>
+	<div class="playlist-container">
+		<table>
+			<tr>
+				<% # Give each video an id corresponding to count
+				count = 0 %>
+				<% playlist.videos.each do |video| %>
+					<td>
+						<% if video == current then %>
+							<div class="video-thumbnail-name-current">
+								<%= video.name %>
+							</div>
+							<div class="video-thumbnail-current" id="video<%= count %>">
+								<p class="hidden-video-url"><%= video.site_code %></p>
+								<img src="http://img.youtube.com/vi/<%= video.site_code %>/default.jpg" alt="<%= video.name %>" onclick="playVideo(<%= count %>)"/>
+							</div>
+						<% else %>
+							<div class="video-thumbnail-name">
+								<%= video.name %>
+							</div>
+							<div class="video-thumbnail" id="video<%= count %>">
+								<p class="hidden-video-url"><%= video.site_code %></p>
+								<img src="http://img.youtube.com/vi/<%= video.site_code %>/default.jpg" alt="<%= video.name %>" onclick="playVideo(<%= count %>)"/>
+							</div>
+						<% end %>
+					</td>
+					<% count += 1 %>
+				<% end %>
+			</tr>
+		</table>
+	</div>
+<% end %>
