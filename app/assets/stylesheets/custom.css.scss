@@ -182,3 +182,32 @@ input, textarea, select, .uneditable-input {
     }
   }
 }
+
+/* playlist creation page */
+
+div#search-container {
+  float: left;
+  height: 550px;
+  width: 600px;
+  background-color: lightblue;
+  overflow: scroll;
+}
+
+div#playlists-container {
+  float: left;
+  height: 550px;
+  width: 340px;
+  background-color: gray;
+}
+
+div.search-result-container {
+  float: left;
+}
+
+img.preview-video {
+  margin-top: 18px;
+  position: relative;
+  opacity: 0.5;
+  float: left;
+  pointer-events: none;
+}
