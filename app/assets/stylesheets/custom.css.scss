@@ -211,3 +211,26 @@ img.preview-video {
   float: left;
   pointer-events: none;
 }
+
+#preview-modal-backdrop {
+  width: 585px;
+  height: 438px;
+  background-color: gray;
+  position: absolute;
+  top: 156px;
+  z-index: 50;
+  display: none;
+}
+
+#preview-container {
+  position: relative;
+  top: -444px;
+  left: 87px;
+  z-index: 51;
+}
+
+#preview-close {
+  position: relative;
+  top: -375px;
+  left: 415px;
+}

@@ -36,7 +36,7 @@ $(function() {
 		     title: item.title,
 		     thumb: ytIdToThumbnail(item.id),
 		     videoId: item.id,
-		     duration: item.duration,
+		     duration: formatSeconds(item.duration),
 		     viewCount: item.viewCount ? item.viewCount : 0,
 		     author: item.uploader
 		    };
@@ -96,7 +96,7 @@ $(function() {
 		className: "search-result-container",
 		
 		events: {
-			"click .thumb-container": "previewVideo"
+			"click .thumb-container" : "previewVideo"
 		},
 		
 		initialize: function() {
@@ -110,12 +110,34 @@ $(function() {
 		},
 		
 		previewVideo: function() {
-			window.ytpreviewplayer.loadVideoById(this.model.get("videoId"));
+			window.PlaylistCreationPage.previewView.showPreview(this.model.get("videoId"));
 		}
 		
 	});
 	
 	window.PreviewView = Backbone.View.extend({
+		
+		el: "#preview-modal-container",
+		
+		events: {
+			"click #preview-close" : "hidePreview"
+		},
+		
+		initialize: function() {
+			this.previewModal = $(this.el).find("#preview-container");
+			this.modalBackdrop = $(this.el).find("#preview-modal-backdrop");
+		},
+		
+		showPreview: function(videoId) {
+			this.modalBackdrop.show();
+			this.previewModal.show();
+			this.currentVideoId = videoId;
+		},
+		
+		hidePreview: function() {
+			this.previewModal.hide();
+			this.modalBackdrop.hide();
+		}
 		
 	});
 	
@@ -154,6 +176,25 @@ function ytIdToThumbnail(id) {
 }
 
 function onYouTubePlayerReady(playerId) {
-	console.log("on player ready");
-	window.ytpreviewplayer = document.getElementById("myytpreviewplayer");
+	if (!window.PlaylistCreationPage.previewView) {
+		window.ytpreviewplayer = document.getElementById("myytpreviewplayer");
+		window.PlaylistCreationPage.previewView = new PreviewView();
+		window.PlaylistCreationPage.previewView.hidePreview();
+	} else {
+		window.ytpreviewplayer.loadVideoById(window.PlaylistCreationPage.previewView.currentVideoId);
+	}
+}
+
+function formatSeconds(time) {
+ var hours = null,
+     minutes = null,
+     seconds = null,
+     result;
+ time = Math.floor(time);
+ hours = Math.floor(time / 3600);
+ time = time - hours * 3600;
+ minutes = Math.floor(time / 60);
+ seconds = time - minutes * 60;
+ result = "" + ((hours > 0) ? (hours + ":") : "") + ((minutes > 0) ? ((minutes < 10 && hours > 0) ? "0" + minutes + ":" : minutes + ":") : "0:") + ((seconds < 10) ? "0" + seconds : seconds);
+ return result;
 }
