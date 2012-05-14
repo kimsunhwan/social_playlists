@@ -1,5 +1,25 @@
-<!-- Put a view for viewing the video -->
+<!--
+Put a view for viewing the video
 <%= render :partial => 'watch/watch_video', :locals => {:video => @playlist.videos[0]} %>
-<!-- Scroll menu for current playlist -->
+Scroll menu for current playlist
 <%= render :partial => 'watch/show_playlist_scroll', :locals => {:playlist => @playlist, 
 																										:current => @playlist.videos[0]} %>
+
+-->
+
+<div id="watch-root">
+	<div id="playlists-container">
+		Playlists:
+		<div id="playlist-results">
+		</div>
+	</div>
+
+	<div id="player-container">
+	</div>
+
+	<div id="playlist-container">
+		Videos:
+		<div id="video-results">
+		</div>
+	</div>
+</div>

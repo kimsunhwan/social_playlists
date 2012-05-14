@@ -15,6 +15,8 @@ SampleApp::Application.routes.draw do
   match '/vsearch', to: 'videos#search'
 
   match '/watch', to: 'watch#watch'
+  match '/api/playlists', to: 'watch#get_playlists_data'
+  match '/api/playlist', to: 'watch#get_playlist_data'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
