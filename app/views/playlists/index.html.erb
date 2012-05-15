@@ -1,9 +1,9 @@
 <div id="playlists-root">
 
   <div id="search-container">
-    <form>
+    <form id="video-search-form">
       <input type="text" id="video-search-bar"></input>
-      <input type="button" value="Submit" id="video-search-submit"></input>
+      <button>Submit</button> 
     </form>
     Search Results:
     <div id="search-results">
@@ -11,7 +11,14 @@
   </div>
 
   <div id="playlists-container">
-    Playlists:
+    Playlists:<br />
+    <button id="create-playlist-button">Create Playlist</button>
+    <div id="create-playlist-container">
+      Name:<br/>
+      <input type="text" id="create-playlist-name"></input>
+      Description:<br/>
+      <textarea id="create-playlist-description" rows="3" cols="40"></textarea>
+    </div>
     <div class="playlists"></div>
     <div id="create-playlist-modal"></div>
     <div id="create-playlist-modal-backdrop"></div>

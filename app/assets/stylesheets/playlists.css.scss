@@ -1,3 +1,67 @@
 // Place all the styles related to the Playlists controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+div#search-container {
+  float: left;
+  height: 550px;
+  width: 600px;
+  background-color: lightblue;
+  overflow: scroll;
+  z-index: 52;
+}
+
+div#playlists-container {
+  float: left;
+  height: 550px;
+  width: 340px;
+  background-color: gray;
+}
+
+div.search-result-container {
+  float: left;
+}
+
+img.preview-video {
+  margin-top: 18px;
+  position: relative;
+  opacity: 0.5;
+  float: left;
+  pointer-events: none;
+}
+
+#preview-modal-backdrop {
+  width: 585px;
+  height: 438px;
+  background-color: gray;
+  position: absolute;
+  top: 156px;
+  z-index: 50;
+  display: none;
+}
+
+#preview-modal-container {
+  height: 499px;
+}
+
+#preview-container {
+  position: relative;
+  top: -444px;
+  left: 87px;
+  z-index: 51;
+  display: none;
+}
+
+#preview-close {
+  position: relative;
+  top: -375px;
+  left: 415px;
+}
+
+#create-playlist-container {
+  display: none;
+}
+
+.ui-dialog {
+  background-color: lightblue;
+}

@@ -66,6 +66,10 @@ $(function() {
 				searchResultCollection: this.searchResultCollection
 			});
 			this.searchBar = $(this.el).find("#video-search-bar");
+			$(this.el).find("#video-search-form").bind("submit", function(event) {
+				event.preventDefault();
+				this.executeSearch();
+			}.bind(this));
 			this.previewView = new PreviewView();
 		},
 		
@@ -149,7 +153,56 @@ $(function() {
 		
 	});
 	
+	window.PlaylistsModel = Backbone.Model.extend({
+		
+		initialize: function() {
+			this.playlistCollection = this.get("playlistCollection");
+		}
+		
+	});
+	
 	window.PlaylistsView = Backbone.View.extend({
+		
+		el: "#playlists-container",
+		
+		events: {
+			"click #create-playlist-button" : "openCreateDialog"
+		},
+		
+		initialize: function() {
+			this.createDialog = $(this.el).find("#create-playlist-container");
+			this.playlistNameInput = this.createDialog.find("#create-playlist-name");
+			this.playlistDescriptionInput = this.createDialog.find("#create-playlist-description");
+			this.playlistCollection = new Backbone.Collection();
+			this.playlistCollection.on("add", this.addPlaylistView);
+			this.playlistsModel = new PlaylistsModel({
+				playlistCollection: this.playlistCollection
+			});
+			this.setupCreateDialog();
+		},
+		
+		setupCreateDialog: function() {
+			this.createDialog.dialog({
+				autoOpen: false,
+				buttons: {
+					"Create Playlist": function() {
+						this.createPlaylist();
+					}.bind(this),
+					"Cancel": function() {
+						$(this).dialog("close");
+					}
+				},
+				position: [846, 130]
+			});
+		},
+		
+		createPlaylist: function() {
+			
+		},
+		
+		openCreateDialog: function() {
+			this.createDialog.dialog("open");
+		}
 		
 	});
 	
@@ -160,8 +213,8 @@ $(function() {
 	window.PlaylistCreationView = Backbone.View.extend({
 		initialize: function() {
 			this.SearchView = new SearchView();
-			this.CurrentPlaylistView = new CurrentPlaylistView();
 			this.PlaylistsView = new PlaylistsView();
+			this.CurrentPlaylistView = new CurrentPlaylistView();
 		}
 	});
 	
@@ -169,6 +222,7 @@ $(function() {
 	var params = { allowScriptAccess: "always" };
 	var atts = { id: "myytpreviewplayer" };
 	swfobject.embedSWF("http://www.youtube.com/v/Bje_8Y7KUfM?enablejsapi=1&playerapiid=myytpreviewplayer&version=3", "preview-modal", "425", "356", "8", null, null, params, atts);
+	window.PlaylistCreationPage.previewView = new PreviewView();
 });
 
 function ytIdToThumbnail(id) {
@@ -176,13 +230,10 @@ function ytIdToThumbnail(id) {
 }
 
 function onYouTubePlayerReady(playerId) {
-	if (!window.PlaylistCreationPage.previewView) {
+	if (!window.ytpreviewplayer) {
 		window.ytpreviewplayer = document.getElementById("myytpreviewplayer");
-		window.PlaylistCreationPage.previewView = new PreviewView();
-		window.PlaylistCreationPage.previewView.hidePreview();
-	} else {
-		window.ytpreviewplayer.loadVideoById(window.PlaylistCreationPage.previewView.currentVideoId);
 	}
+	window.ytpreviewplayer.loadVideoById(window.PlaylistCreationPage.previewView.currentVideoId);
 }
 
 function formatSeconds(time) {
