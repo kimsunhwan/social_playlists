@@ -181,4 +181,142 @@ input, textarea, select, .uneditable-input {
       border-bottom: 1px solid $grayLighter;
     }
   }
+<<<<<<< HEAD
+=======
+}
+
+/* playlist creation page */
+
+div#search-container {
+  float: left;
+  height: 550px;
+  width: 600px;
+  background-color: lightblue;
+  overflow: scroll;
+}
+
+div#playlists-container {
+  float: left;
+  height: 550px;
+  width: 340px;
+  background-color: gray;
+}
+
+div.search-result-container {
+  float: left;
+}
+
+img.preview-video {
+  margin-top: 18px;
+  position: relative;
+  opacity: 0.5;
+  float: left;
+  pointer-events: none;
+}
+
+#preview-modal-backdrop {
+  width: 585px;
+  height: 438px;
+  background-color: gray;
+  position: absolute;
+  top: 156px;
+  z-index: 50;
+  display: none;
+}
+
+#preview-container {
+  position: relative;
+  top: -444px;
+  left: 87px;
+  z-index: 51;
+}
+
+#preview-close {
+  position: relative;
+  top: -375px;
+  left: 415px;
+}
+
+.navbar-inner {
+  background-image: none!important;
+  background-color: #E0E0E0;
+}
+
+.navbar .nav li a {
+  color: black!important;
+  font-weight: bold;
+  text-shadow: none!important;
+}
+
+.navbar .nav li a:hover {
+  color: white!important;
+  background-color: gray!important;
+  opacity: 0.2;
+}
+
+#logo {
+  background-color: #08c;
+  height: 31px;
+  width: 203px;
+  text-indent: 6px;
+  opacity: .7;
+}
+
+#logo:hover {
+  opacity: .9;
+}
+
+form label {
+  font-size: 18px;
+}
+
+#q {
+  width: 90%;
+}
+
+#video-search-bar {
+  width: 88%;
+}
+
+#search-container {
+  background-color: white!important;
+  overflow-y: scroll!important;
+  overflow-x: hidden!important;
+}
+
+.search-cell-template {
+  float: left
+}
+
+.search-result-container {
+  float: left;
+  width: 120px;
+  margin-right: 26px;
+}
+
+.search-cell-template {
+
+}
+
+.thumb-container img{
+  cursor: pointer;
+}
+
+.preview-video {
+  margin-top: -70px!important;
+  margin-left: 40px;
+}
+
+#preview-modal-backdrop {
+  background-color: #e0e0e0;
+  width: 460px!important;
+  height: 391px!important;
+  margin-left: 70px!important;
+  top: 149px!important;
+  border-radius: 2px;
+}
+
+#playlists-container {
+  background-color: transparent!important;
+>>>>>>> css changes to splash page, search, and search
 }
