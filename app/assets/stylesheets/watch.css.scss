@@ -2,6 +2,22 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.hidden-video-url {
-	display: none;
+.video-result-container {
+	float: left;
+}
+
+#video-results {
+	width: 100%;
+}
+
+#player-container {
+	float: right;
+}
+
+#watch-root #playlists-container {
+	float: left;
+	width: 25%;
+	height: 390px;
+	background-color: white;
+	overflow: inherit;
 }

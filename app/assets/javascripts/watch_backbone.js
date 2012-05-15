@@ -91,10 +91,6 @@ $(function () {
 		playVideo: function(id, site_code) {
 			this.currentVideoId = id;
 			window.player.loadVideoById(site_code);
-		},
-
-		playNextVideo: function() {
-
 		}
 	});
 
@@ -166,6 +162,17 @@ $(function () {
 			this.currentVideoNumber = 0;
 			window.WatchPage.PlayerView.playVideo(this.videos.at(0).get("id"), this.videos.at(0).get("site_code"));
 		},
+
+		setCurrentVideo: function(video_id) {
+			// Search for the given video_id in the collection of videos
+			for (var i = 0; i < this.videos.length; i++) {
+				if (this.videos.at(i).get("id") == video_id) {
+					this.currentVideoNumber = i;
+					break;
+				}
+			}
+		},
+
 		/*
 		displayPlaylist: function(id) {
 			if (this.currentPlaylistId == id) return;
@@ -217,7 +224,9 @@ $(function () {
 		},
 
 		playVideo: function() {
-			// get id of the video that was clicked on and play it
+			// update the state of the PlaylistView to make this video the current one
+			window.WatchPage.PlaylistView.setCurrentVideo(this.model.get("id"));
+
 			window.WatchPage.PlayerView.playVideo(this.model.get("id"), this.model.get("site_code"));
 		}
 	});
@@ -240,4 +249,28 @@ function playNextVideo(event) {
 	if (event.data == YT.PlayerState.ENDED) {
 		window.WatchPage.PlaylistView.playNextVideo();
 	}
+}
+
+function highlightThumbnail(id) {
+	document.body.style.cursor = 'pointer';
+	var e = document.getElementById("thumbnail" + id);
+	e.style.border = "medium solid #ff7d40";
+}
+
+function unhighlightThumbnail(id) {
+	document.body.style.cursor = 'auto';
+	var e = document.getElementById("thumbnail" + id);
+	e.style.border = "";
+}
+
+function highlightPlaylistName(id) {
+	document.body.style.cursor = 'pointer';
+	var e = document.getElementById("playlist-name" + id);
+	e.style.border = "medium solid #ff7d40";
+}
+
+function unhighlightPlaylistName(id) {
+	document.body.style.cursor = 'auto';
+	var e = document.getElementById("playlist-name" + id);
+	e.style.border = "";
 }
