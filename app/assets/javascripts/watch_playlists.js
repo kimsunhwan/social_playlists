@@ -1,3 +1,4 @@
+/*
 function playNextVideo(event) {
 	if (event.data == YT.PlayerState.ENDED) {
 		currentVideoId++;
@@ -16,3 +17,4 @@ function playVideo(num) {
 
 	player.loadVideoById(url);
 }
+*/

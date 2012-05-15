@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20120514155943) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "playlists_videos", :id => false, :force => true do |t|
+  create_table "playlists_videos", :force => true do |t|
     t.integer "playlist_id"
     t.integer "video_id"
     t.integer "order"

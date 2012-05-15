@@ -19,12 +19,15 @@ Scroll menu for current playlist
 	</div>
 
 	<div id="playlist-container">
-		Videos:
-		<div id="video-results">
-		</div>
+		<table>
+			<tr>
+				<div id="video-results">
+				</div>
+			</tr>
+		</table>
 	</div>
 </div>
-<!--
+
 <script>
 	// Taken from https://developers.google.com/youtube/player_parameters
 	// Load the IFrame Player API code asynchronously.
@@ -35,15 +38,13 @@ Scroll menu for current playlist
 
 	// Replace the 'video-player' element with an <iframe> and
 	// YouTube player after the API code downloads.
-	var player;
 	function onYouTubePlayerAPIReady() {
 	  player = new YT.Player('video-player', {
 	    height: '390',
 	    width: '640',
 	    videoId: '<%= @video.site_code %>',
 	    playerVars: {'autoplay': '1', 'enablejsapi': '1'},
-	  	//events: {'onStateChange': 'playNextVideo'}
+	  	events: {'onStateChange': 'playNextVideo'}
 	  });
 	}
 </script>
--->

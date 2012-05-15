@@ -88,25 +88,16 @@ $(function () {
 
 	window.PlayerView = Backbone.View.extend({
 		initialize: function() {
-			// Taken from https://developers.google.com/youtube/player_parameters
-			// Load the IFrame Player API code asynchronously.
-			var tag = document.createElement('script');
-			tag.src = "https://www.youtube.com/player_api";
-			var firstScriptTag = document.getElementsByTagName('script')[0];
-			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+			this.currentVideoId = 1;
+		},
 
-			// Replace the 'video-player' element with an <iframe> and
-			// YouTube player after the API code downloads.
-			var player;
-			function onYouTubePlayerAPIReady() {
-				player = new YT.Player('video-player', {
-					height: '390',
-					width: '640',
-					videoId: '<%= @video.site_code %>',
-					playerVars: {'autoplay': '1', 'enablejsapi': '1'}
-					//events: {'onStateChange': 'playNextVideo'}
-				});
-			}
+		playVideo: function(id, site_code) {
+			this.currentVideoId = id;
+			window.player.loadVideoById(site_code);
+		},
+
+		playNextVideo: function() {
+
 		}
 	});
 
@@ -143,10 +134,12 @@ $(function () {
 			this.model = new PlaylistModel({
 				videos: this.videos
 			});
-			this.currentPlaylistId = 0;
+			this.currentPlaylistId = 1;
+			this.currentVideoNumber = 1;
 
 			//alert(JSON.stringify(this.options));
 			//this.model.getPlaylist(this.options[0].id);
+			this.model.getPlaylist(1);
 		},
 		
 		displayPlaylist: function(id) {
@@ -164,6 +157,10 @@ $(function () {
 
 		resetVideoResultView: function() {
 			$("#video-results").empty();
+		},
+
+		playNextVideo: function() {
+			alert('play next video');
 		}
 	});
 
@@ -188,7 +185,7 @@ $(function () {
 
 		playVideo: function() {
 			// get id of the video that was clicked on and play it
-			// id of the video = this.model.get("id") or site_code
+			window.WatchPage.PlayerView.playVideo(this.model.get("id"), this.model.get("site_code"));
 		}
 	});
 
@@ -204,3 +201,10 @@ $(function () {
 
 	window.WatchPage = new WatchView();
 });
+
+// Play the next video when the current one has ended
+function playNextVideo(event) {
+	if (event.data == YT.PlayerState.ENDED) {
+		window.WatchPage.PlaylistView.playNextVideo();
+	}
+}

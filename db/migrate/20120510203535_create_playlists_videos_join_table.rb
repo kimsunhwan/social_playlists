@@ -1,6 +1,6 @@
 class CreatePlaylistsVideosJoinTable < ActiveRecord::Migration
   def up
-  	create_table :playlists_videos, :id => false do |t|
+  	create_table :playlists_videos do |t|
   		t.references :playlist
   		t.references :video
   	end

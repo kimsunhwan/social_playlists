@@ -1,7 +1,8 @@
 class Video < ActiveRecord::Base
   attr_accessible :name, :site_code, :type_id, :length, :upvotes, :downvotes, :views
 
-  has_and_belongs_to_many :playlists
+  has_many :orderings
+  has_many :playlists, :through => :orderings
 
   def ==(another)
   	return self.site_code == another.site_code
