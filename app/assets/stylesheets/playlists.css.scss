@@ -16,6 +16,17 @@ div#playlists-container {
   height: 550px;
   width: 340px;
   background-color: gray;
+  overflow: scroll;
+}
+
+div#videos-container {
+  float: left;
+  height: 550px;
+  width: 340px;
+  background-color: gray;
+  overflow: scroll;
+  position: absolute;
+  display: none;
 }
 
 div.search-result-container {
