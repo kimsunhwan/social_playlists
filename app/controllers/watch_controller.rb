@@ -11,8 +11,9 @@ class WatchController < ApplicationController
 	end
 
 	def get_playlist_data
-		playlist = Playlist.find(params[:id])
-		render :json => playlist.videos
+		# playlist = Playlist.find(params[:id])
+		# render :json => playlist.videos
+		render :json => Playlist.find(params[:id]).videos(:include => :ordering).order('"playlists_videos"."order" ASC')
 	end
 
 	def get_video_data

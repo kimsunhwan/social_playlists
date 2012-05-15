@@ -19,14 +19,6 @@ $(function () {
 				results.push(data[i]);
 			}
 			this.get("playlists").add(results);
-		},
-
-		getPlaylistAtIndex: function(n) {
-			if (this.get("playlists").length > 0) {
-				return this.get("playlists").at(0).id;
-			} else {
-				return 0;
-			}
 		}
 	});
 
@@ -58,7 +50,11 @@ $(function () {
 		},
 
 		getPlaylistAtIndex: function(n) {
-			return this.model.getPlaylistAtIndex(n);
+			if (this.playlists.length > 0) {
+				return this.playlists.at(n).id;
+			} else {
+				return 0;
+			}
 		}
 	});
 
@@ -82,7 +78,8 @@ $(function () {
 		},
 
 		displayPlaylist: function() {
-			window.WatchPage.PlaylistView.displayPlaylist(this.model.get("id"));
+			//window.WatchPage.PlaylistView.displayPlaylist(this.model.get("id"));
+			window.WatchPage.PlaylistView.getPlaylist(this.model.get("id"));
 		}
 	});
 
@@ -131,24 +128,56 @@ $(function () {
 			this.videos = new Backbone.Collection();
 			this.videos.on("add", this.addVideoResultView);
 			this.videos.on("reset", this.resetVideoResultView);
+			/*
 			this.model = new PlaylistModel({
 				videos: this.videos
 			});
-			this.currentPlaylistId = 1;
-			this.currentVideoNumber = 1;
+			*/
+			this.currentPlaylistId = 0;
+			this.currentVideoNumber = 0; // the order number of the currently playing video
 
 			//alert(JSON.stringify(this.options));
 			//this.model.getPlaylist(this.options[0].id);
-			this.model.getPlaylist(1);
+			//this.model.getPlaylist(this.currentPlaylistId);
+
+			this.getPlaylist(1);
 		},
-		
+
+		getPlaylist: function(id) {
+			if (this.currentPlaylistId == id) return;
+			this.videos.reset();
+			this.currentPlaylistId = id;
+
+			var url = "/api/playlist?id=" + id;
+			$.ajax({
+				url: url,
+				success: this.displayPlaylist.bind(this)
+			});
+		},
+
+		displayPlaylist: function(data) {
+			// data is an array of the videos contained in the playlist
+			var results = [];
+			for (var i = 0; i < data.length; i++) {
+				results.push(data[i]);
+			}
+			this.videos.add(results);
+
+			this.currentVideoNumber = 0;
+			window.WatchPage.PlayerView.playVideo(this.videos.at(0).get("id"), this.videos.at(0).get("site_code"));
+		},
+		/*
 		displayPlaylist: function(id) {
 			if (this.currentPlaylistId == id) return;
 			this.videos.reset();
 			this.model.getPlaylist(id);
 			this.currentPlaylistId = id;
-		},
 
+			// Play the selected playlist
+			this.currentVideoNumber = 0;
+			window.WatchPage.PlayerView.playVideo(this.videos[0].id, this.videos[0].site_code);
+		},
+		*/
 		addVideoResultView: function(videoResult) {
 			new window.VideoResultView({
 				model: videoResult
@@ -160,7 +189,11 @@ $(function () {
 		},
 
 		playNextVideo: function() {
-			alert('play next video');
+			this.currentVideoNumber += 1;
+			if (this.currentVideoNumber < this.videos.length) {
+				var video = this.videos.at(this.currentVideoNumber);
+				window.WatchPage.PlayerView.playVideo(video.get("id"), video.get("site_code"));
+			}
 		}
 	});
 
