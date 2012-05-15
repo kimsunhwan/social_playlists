@@ -19,6 +19,14 @@ $(function () {
 				results.push(data[i]);
 			}
 			this.get("playlists").add(results);
+		},
+
+		getPlaylistAtIndex: function(n) {
+			if (this.get("playlists").length > 0) {
+				return this.get("playlists").at(0).id;
+			} else {
+				return 0;
+			}
 		}
 	});
 
@@ -47,6 +55,10 @@ $(function () {
 			this.playlists.each(function(playlistResult) {
 				this.addPlaylistResultView(playlistResult);
 			});
+		},
+
+		getPlaylistAtIndex: function(n) {
+			return this.model.getPlaylistAtIndex(n);
 		}
 	});
 
@@ -76,7 +88,25 @@ $(function () {
 
 	window.PlayerView = Backbone.View.extend({
 		initialize: function() {
+			// Taken from https://developers.google.com/youtube/player_parameters
+			// Load the IFrame Player API code asynchronously.
+			var tag = document.createElement('script');
+			tag.src = "https://www.youtube.com/player_api";
+			var firstScriptTag = document.getElementsByTagName('script')[0];
+			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+			// Replace the 'video-player' element with an <iframe> and
+			// YouTube player after the API code downloads.
+			var player;
+			function onYouTubePlayerAPIReady() {
+				player = new YT.Player('video-player', {
+					height: '390',
+					width: '640',
+					videoId: '<%= @video.site_code %>',
+					playerVars: {'autoplay': '1', 'enablejsapi': '1'}
+					//events: {'onStateChange': 'playNextVideo'}
+				});
+			}
 		}
 	});
 
@@ -109,23 +139,35 @@ $(function () {
 		initialize: function() {
 			this.videos = new Backbone.Collection();
 			this.videos.on("add", this.addVideoResultView);
+			this.videos.on("reset", this.resetVideoResultView);
 			this.model = new PlaylistModel({
 				videos: this.videos
 			});
+			this.currentPlaylistId = 0;
+
+			//alert(JSON.stringify(this.options));
+			//this.model.getPlaylist(this.options[0].id);
 		},
 		
 		displayPlaylist: function(id) {
+			if (this.currentPlaylistId == id) return;
+			this.videos.reset();
 			this.model.getPlaylist(id);
+			this.currentPlaylistId = id;
 		},
 
 		addVideoResultView: function(videoResult) {
-			new VideoResultView({
+			new window.VideoResultView({
 				model: videoResult
 			});
+		},
+
+		resetVideoResultView: function() {
+			$("#video-results").empty();
 		}
 	});
 
-	window.VideoResultView = new Backbone.View.extend({
+	window.VideoResultView = Backbone.View.extend({
 		template: JST["templates/video_element"],
 
 		events: {
@@ -146,14 +188,16 @@ $(function () {
 
 		playVideo: function() {
 			// get id of the video that was clicked on and play it
-			// id of the video = this.model.get("id")
+			// id of the video = this.model.get("id") or site_code
 		}
 	});
 
 	window.WatchView = Backbone.View.extend({
 		initialize: function() {
 			this.PlaylistsView = new PlaylistsView();
-			this.PlaylistView = new PlaylistView();
+			this.PlaylistView = new PlaylistView({
+				//playlistId: this.PlaylistsView.getPlaylistAtIndex(0)
+			});
 			this.PlayerView = new PlayerView();
 		}
 	});

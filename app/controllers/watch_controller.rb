@@ -2,6 +2,7 @@ class WatchController < ApplicationController
 
 	def watch
 		@playlist = Playlist.find(1)
+		@video = @playlist.videos[0];
 	end
 
 	def get_playlists_data
