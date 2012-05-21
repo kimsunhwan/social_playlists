@@ -225,7 +225,17 @@ $(function() {
 				name: this.playlistNameInput.val(),
 				description: this.playlistDescriptionInput.val()
 			}
-			this.playlistCollection.add(attributes);
+			$.ajax({
+				url: "api/create_playlist",
+				success: this.playlistCreated.bind(this),
+				type: "POST",
+				data: attributes
+			});
+		},
+		
+		playlistCreated: function(response) {
+			console.log(response);
+			this.playlistCollection.add(response);
 			this.createDialog.dialog("close");
 		},
 		
