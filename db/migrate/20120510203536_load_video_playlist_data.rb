@@ -1,7 +1,13 @@
 class LoadVideoPlaylistData < ActiveRecord::Migration
   def up
   	down
-  	user = User.find(101)
+    if User.exists?(101) then
+  	 user = User.find(101)
+    else
+      user = User.new(:name => "ctuong1", :email => "test@gmail.com")
+      user.id = 101
+      user.save(:validate => false)
+    end
 
   	# Create videos
   	video1 = Video.new(:name => "Diablo III Cinematic Teaser", :site_code => "EgbUSsblCSQ", 
