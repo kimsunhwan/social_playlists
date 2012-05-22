@@ -20,4 +20,12 @@ class PlaylistsController < ApplicationController
     current_user.save
     render :json => playlist
   end
+  
+  def add_video_to_playlist
+    
+  end
+  
+  def remove_video_from_playlist
+    
+  end
 end
