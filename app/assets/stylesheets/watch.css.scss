@@ -2,16 +2,37 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+#playlist-container {
+  font-size: 20px;
+}
+
+#playlist-results {
+  margin-top: 10px;
+}
+
+.playlist-result-container {
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+
 .video-result-container {
 	float: left;
 }
 
+#video-results-container {
+  width: 940px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: 130px;
+  padding-top: 16px;
+}
+
 #video-results {
-	width: 100%;
+	width: 1600px;
 }
 
 #player-container {
-	float: right;
+	float: left;
 }
 
 #watch-root #playlists-container {
@@ -20,4 +41,36 @@
 	height: 390px;
 	background-color: white;
 	overflow: inherit;
+	margin-left: 16px;
+	font-size: 16px;
+}
+
+
+div#videos-container {
+  float: left;
+  height: 550px;
+  width: 340px;
+  background-color: gray;
+  overflow: scroll;
+  position: absolute;
+  display: none;
+  font-size: 16px;
+}
+
+.video-cell-template {
+  width: 120px;
+  height: 95px;
+  margin-right: 24px;
+  font-size: 14px;
+}
+
+.thumb-container {
+  margin-top: -36px;
+}
+
+.video-info-container {
+  position: relative;
+  color: white;
+  width: 120px;
+  background: rgba(0, 0, 0, 0.3);
 }

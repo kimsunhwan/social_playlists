@@ -223,6 +223,13 @@ img.preview-video {
   display: none;
 }
 
+#video-search-form button {
+  height: 40px;
+  vertical-align: top;
+  background-color: #EEEEEE;
+  border: 1px solid #CCCCCC;
+}
+
 #preview-container {
   position: relative;
   top: -444px;
@@ -244,7 +251,6 @@ img.preview-video {
 
 .navbar .nav li a {
   color: black!important;
-  font-weight: bold;
   text-shadow: none!important;
 }
 
@@ -262,48 +268,4 @@ form label {
   width: 90%;
 }
 
-#video-search-bar {
-  width: 88%;
-}
 
-#search-container {
-  background-color: white!important;
-  overflow-y: scroll!important;
-  overflow-x: hidden!important;
-}
-
-.search-cell-template {
-  float: left
-}
-
-.search-result-container {
-  float: left;
-  width: 120px;
-  margin-right: 26px;
-}
-
-.search-cell-template {
-
-}
-
-.thumb-container img{
-  cursor: pointer;
-}
-
-.preview-video {
-  margin-top: -70px!important;
-  margin-left: 40px;
-}
-
-#preview-modal-backdrop {
-  background-color: #e0e0e0!important;
-  width: 460px!important;
-  height: 391px!important;
-  margin-left: 70px!important;
-  top: 163px!important;
-  border-radius: 2px;
-}
-
-#playlists-container {
-  background-color: transparent!important;
-}

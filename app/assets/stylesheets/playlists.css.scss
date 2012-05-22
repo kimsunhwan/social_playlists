@@ -11,43 +11,90 @@ div#search-container {
   z-index: 52;
 }
 
+#video-search-bar {
+  width: 60%;
+  height: 40px;
+}
+
+
 div#playlists-container {
   float: left;
   height: 550px;
   width: 340px;
   background-color: gray;
-  overflow: scroll;
+  overflow-y: scroll;
+  text-indent: 4px;
+  font-size: 16px;
+  margin-top: 8px;
 }
 
-div#videos-container {
-  float: left;
-  height: 550px;
-  width: 340px;
-  background-color: gray;
-  overflow: scroll;
-  position: absolute;
-  display: none;
+.video-cell-template:hover {
+  opacity: .6;
 }
 
 div.search-result-container {
   float: left;
 }
 
-img.preview-video {
-  margin-top: 18px;
-  position: relative;
-  opacity: 0.5;
+.video-duration, .video-view-count, .video-author {
+  display: none;
+}
+
+#search-container {
+  background-color: white!important;
+  overflow-y: scroll!important;
+  overflow-x: hidden!important;
+}
+
+.search-cell-template {
+  float: left
+}
+
+.search-result-container {
   float: left;
-  pointer-events: none;
+  width: 120px;
+  margin: 0 16px 16px 0;
+  height: 95px;
+}
+
+.video-info-container {
+  margin-top: -93px!important;
+}
+
+.search-cell-template {
+
+}
+
+.thumb-container img{
+  cursor: pointer;
+}
+
+.preview-video {
+  margin-top: -70px!important;
+  margin-left: 40px;
 }
 
 #preview-modal-backdrop {
-  width: 585px;
-  height: 438px;
-  background-color: gray;
-  position: absolute;
-  top: 156px;
-  z-index: 50;
+  background-color: #EEEEEE!important;
+  width: 456px!important;
+  height: 386px!important;
+  margin-left: 73px!important;
+  top: 175px!important;
+  border-radius: 2px;
+  border: 1px solid #CCCCCC;
+  color: #EEEEEE;
+}
+
+#playlists-container {
+  background-color: transparent!important;
+}
+
+img.preview-video {
+  # margin-top: 18px;
+  # position: relative;
+  # opacity: 0.5;
+  # float: left;
+  # pointer-events: none;
   display: none;
 }
 
@@ -63,14 +110,50 @@ img.preview-video {
   display: none;
 }
 
+#playlists-title {
+  text-indent: 4px;
+  font-size: 20px;
+}
+
+#videos-container {
+  margin-top: 8px;
+  background-color: white!important;
+}
+
 #preview-close {
   position: relative;
   top: -375px;
-  left: 415px;
+  left: 429px;
+  color: #515151;
+  font-size: 18px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+#preview-close:hover {
+  color: #00B4FF;
 }
 
 #create-playlist-container {
   display: none;
+}
+
+.playlist-cell-container {
+  margin-bottom: 6px;
+}
+
+#create-playlist-button {
+  border: none;
+  background-color: transparent;
+  color: #00B4FF;
+  text-indent: -6px;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+#create-playlist-button:hover {
+  text-decoration: underline;
 }
 
 .ui-dialog {

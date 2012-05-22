@@ -15,10 +15,10 @@
 								<img src="http://img.youtube.com/vi/<%= video.site_code %>/default.jpg" alt="<%= video.name %>" onclick="playVideo(<%= count %>)"/>
 							</div>
 						<% else %>
-							<div class="video-thumbnail-name">
-								<%= video.name %>
-							</div>
 							<div class="video-thumbnail" id="video<%= count %>">
+							  <div class="video-thumbnail-name">
+  								<%= video.name %>
+  							</div>
 								<p class="hidden-video-url"><%= video.site_code %></p>
 								<img src="http://img.youtube.com/vi/<%= video.site_code %>/default.jpg" alt="<%= video.name %>" onclick="playVideo(<%= count %>)"/>
 							</div>
