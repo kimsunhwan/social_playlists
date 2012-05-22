@@ -62,16 +62,16 @@ p {
 #logo {
   float: left;
   margin-right: 10px;
-  font-size: 1.7em;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  padding-top: 9px;
-  font-weight: bold;
-  line-height: 1;
+  color: transparent;
+  background-image:url('/images/logo_header.png');
+  height: 40px;
+  width: 200px;
   &:hover {
-    color: white;
+    color: transparent;
     text-decoration: none;
+  }
+  &:active {
+    background-image:url('/images/logo_header_clicked.png');
   }
 }
 
@@ -238,7 +238,8 @@ img.preview-video {
 
 .navbar-inner {
   background-image: none!important;
-  background-color: #E0E0E0;
+  background-color: #EEEEEE;
+  box-shadow:none;
 }
 
 .navbar .nav li a {
@@ -249,20 +250,8 @@ img.preview-video {
 
 .navbar .nav li a:hover {
   color: white!important;
+  text-shadow: none!important;
   background-color: gray!important;
-  opacity: 0.2;
-}
-
-#logo {
-  background-color: #08c;
-  height: 31px;
-  width: 203px;
-  text-indent: 6px;
-  opacity: .7;
-}
-
-#logo:hover {
-  opacity: .9;
 }
 
 form label {
