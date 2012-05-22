@@ -109,6 +109,12 @@ $(function() {
 		render: function() {
 			$(this.el).html(this.template(this.model.toJSON()));
 			$("#search-results").append(this.el);
+			$(this.el).attr("videoId", this.model.get("videoId"));
+			$(this.el).draggable({
+				connectToSortable: "#videos",
+				helper: "clone",
+				revert: "invalid"
+			});
 			return this;
 		},
 		
@@ -234,7 +240,6 @@ $(function() {
 		},
 		
 		playlistCreated: function(response) {
-			console.log(response);
 			this.playlistCollection.add(response);
 			this.createDialog.dialog("close");
 		},
@@ -282,11 +287,22 @@ $(function() {
 		render: function() {
 			$(this.el).html(this.template(this.model.toJSON()));
 			$("#playlists").append(this.el);
+			$(this.el).droppable({
+				accept: ".search-result-container",
+				activeClass: "droppable-active",
+				hoverClass: "droppable-hover",
+				drop: this.addVideoToPlaylist
+			});
 			return this;
+		},
+		
+		addVideoToPlaylist: function(event, ui) {
+			console.log(ui);
 		},
 		
 		loadVideos: function() {
 			this.options.playlistsView.addPlaylistNavigation(this.model.get("name"));
+			this.options.playlistsView.videoView.currentPlaylistId = this.model.get("id");
 			this.videoModel.loadVideos(this.model.get("id"));
 		}
 		
@@ -318,7 +334,8 @@ $(function() {
 					playlistId: item.type_id,
 					upvotes: item.upvotes,
 					downvotes: item.downvotes,
-					thumb: ytIdToThumbnail(item.site_code)
+					thumb: ytIdToThumbnail(item.site_code),
+					duration: "0:00"
 				}
 				buildup.push(video);
 			}
@@ -335,7 +352,58 @@ $(function() {
 			this.videoCollection = this.options.videoCollection;
 			this.videoCollection.on("add", this.addVideoCell);
 			this.videoCollection.on("reset", this.resetVideoView, this);
+			this.render();
+		},
+		
+		render: function() {
 			$(this.el).css($("#playlists-container").position());
+			$(this.el).find("#videos").sortable({
+				revert: true,
+				axis: "y",
+				update: this.updatePosition.bind(this),
+				start: this.resizeClone
+			});
+		},
+		
+		resizeClone: function(event, ui) {
+			
+		},
+		
+		updatePosition: function(event, ui) {
+			var videoId, playlistArray, newPosition;
+			videoId = $(ui.item).attr("id");
+			if (!videoId) {
+				videoId = $(ui.item).attr("videoId");
+				$(ui.item).attr("id", videoId);
+				playlistArray = $(this.el).find("#videos").sortable("toArray");
+				newPosition = playlistArray.indexOf(videoId);
+				var attributes = {
+					playlistId: this.currentPlaylistId,
+					videoId: videoId,
+					thumb: ytIdToThumbnail(videoId),
+					duration: $(ui.item).find(".video-duration").html(),
+					title: $(ui.item).find(".video-title").html(),
+					upvotes: 0,
+					downvotes: 0
+				}
+				var newVideoModel = new VideoModel(attributes);
+				this.videoCollection.add(newVideoModel, {
+					at: newPosition,
+					silent: true
+				});
+				new VideoCellView({
+					model: newVideoModel,
+					atIndex: newPosition
+				});
+				$(ui.item).remove();
+			} else {
+				playlistArray = $(this.el).find("#videos").sortable("toArray");
+				newPosition = playlistArray.indexOf(videoId);
+			}
+			
+			console.log(newPosition);
+			console.log(this.currentPlaylistId);
+			console.log(videoId);
 		},
 		
 		addVideoCell: function(video) {
@@ -366,11 +434,16 @@ $(function() {
 		
 		initialize: function() {
 			this.render();
+			if (!this.options.atIndex) {
+				$("#videos").append(this.el);
+			} else {
+				$(this.el).insertBefore($("#videos").find("#" + this.model.get("videoId")));
+			}
 		},
 		
 		render: function() {
 			$(this.el).html(this.template(this.model.toJSON()));
-			$("#videos").append(this.el);
+			$(this.el).attr("id", this.model.get("videoId"));
 			return this;
 		},
 		
