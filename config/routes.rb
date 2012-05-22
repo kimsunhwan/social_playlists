@@ -20,6 +20,7 @@ SampleApp::Application.routes.draw do
   
   match '/api/users_playlists', to: 'playlists#users_playlists'
   match '/api/playlists_videos', to: 'playlists#playlists_videos'
+  match '/api/create_playlist', to: 'playlists#create_playlist'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
