@@ -22,7 +22,8 @@ class PlaylistsController < ApplicationController
   end
   
   def add_video_to_playlist
-    
+    puts params
+    render :json => nil
   end
   
   def remove_video_from_playlist

@@ -291,13 +291,27 @@ $(function() {
 				accept: ".search-result-container",
 				activeClass: "droppable-active",
 				hoverClass: "droppable-hover",
-				drop: this.addVideoToPlaylist
+				drop: this.addVideoToPlaylist.bind(this)
 			});
 			return this;
 		},
 		
 		addVideoToPlaylist: function(event, ui) {
-			console.log(ui);
+			var attributes = {
+				newPosition: 0,
+				playlistId: this.model.get("id"),
+				videoId: $(ui.draggable).attr("videoId")
+			};
+			$.ajax({
+				url: "api/add_video_to_playlist",
+				success: this.videoAdded.bind(this),
+				type: "POST",
+				data: attributes
+			});
+		},
+		
+		videoAdded: function(dataResponse) {
+			
 		},
 		
 		loadVideos: function() {
@@ -370,6 +384,7 @@ $(function() {
 		},
 		
 		updatePosition: function(event, ui) {
+			// updates on client before callback from server is confirmed.
 			var videoId, playlistArray, newPosition;
 			videoId = $(ui.item).attr("id");
 			if (!videoId) {
@@ -400,10 +415,21 @@ $(function() {
 				playlistArray = $(this.el).find("#videos").sortable("toArray");
 				newPosition = playlistArray.indexOf(videoId);
 			}
+			var attributes = {
+				newPosition: newPosition,
+				playlistId: this.currentPlaylistId,
+				videoId: videoId
+			};
+			$.ajax({
+				url: "api/add_video_to_playlist",
+				success: this.videoAdded.bind(this),
+				type: "POST",
+				data: attributes
+			});
+		},
+		
+		videoAdded: function(data) {
 			
-			console.log(newPosition);
-			console.log(this.currentPlaylistId);
-			console.log(videoId);
 		},
 		
 		addVideoCell: function(video) {
