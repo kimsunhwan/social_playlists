@@ -2,15 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-div#search-container {
-  float: left;
-  height: 550px;
-  width: 600px;
-  background-color: lightblue;
-  overflow: scroll;
-  z-index: 52;
-}
-
 #video-search-bar {
   width: 60%;
   height: 40px;
@@ -18,17 +9,6 @@ div#search-container {
 
 .playlist-cell-container:hover {
   background-color: #EEEEEE;
-}
-
-div#playlists-container {
-  float: left;
-  height: 550px;
-  width: 340px;
-  background-color: gray;
-  overflow-y: scroll;
-  text-indent: 4px;
-  font-size: 16px;
-  margin-top: 8px;
 }
 
 .video-cell-template:hover {
@@ -47,6 +27,12 @@ div.search-result-container {
   background-color: white!important;
   overflow-y: scroll!important;
   overflow-x: hidden!important;
+  float: left;
+  height: 550px;
+  width: 600px;
+  background-color: lightblue;
+  overflow: scroll;
+  z-index: 52;
 }
 
 .search-cell-template {
@@ -75,17 +61,6 @@ div.search-result-container {
 .preview-video {
   margin-top: -70px!important;
   margin-left: 40px;
-}
-
-#preview-modal-backdrop {
-  background-color: #EEEEEE!important;
-  width: 456px!important;
-  height: 386px!important;
-  margin-left: 73px!important;
-  top: 175px!important;
-  border-radius: 2px;
-  border: 1px solid #CCCCCC;
-  color: #EEEEEE;
 }
 
 #playlists-container {
@@ -163,10 +138,95 @@ img.preview-video {
   background-color: lightblue;
 }
 
-.droppable-hover.droppable-active {
-  background-color: gray
-}
-
-.droppable-active {
-  background-color: black
+#playlists-root {
+  #search-container {
+    background-color: white!important;
+    overflow-y: scroll!important;
+    overflow-x: hidden!important;
+    float: left;
+    height: 550px;
+    width: 600px;
+    overflow: scroll;
+    z-index: 52;
+    form#video-search-form {
+      input#video-search-bar {
+        width: 88%;
+      }
+    }
+    #search-results {
+      .search-result-container {
+        float: left;
+        width: 120px;
+        margin-right: 26px;
+        img.thumb-container {
+          cursor: pointer;
+          .preview-video {
+            margin-top: -70px!important;
+            margin-left: 40px;
+            margin-top: 18px;
+            position: relative;
+            opacity: 0.5;
+            float: left;
+            pointer-events: none;
+          }
+        }
+      }
+    }
+  }
+  
+  #playlists-videos-container {
+    div#playlists-container {
+      float: left;
+      height: 550px;
+      width: 340px;
+      background-color: gray;
+      overflow-y: scroll;
+      text-indent: 4px;
+      font-size: 16px;
+      margin-top: 8px;
+      div#playlists {
+        .playlist-cell-container {
+          .droppable-hover.droppable-active {
+            background-color: gray
+          }
+          .droppable-active {
+            background-color: black
+          }
+        }
+      }
+    }
+    div#videos-container {
+      div#videos {
+        background-color: gray;
+        padding: 5px;
+      }
+    }
+  }
+  
+  #preview-modal-container {
+    #preview-container {
+      position: relative;
+      top: -444px;
+      left: 87px;
+      z-index: 51;
+      #preview-close {
+        position: relative;
+        top: -375px;
+        left: 415px;
+      }
+    }
+    #preview-modal-backdrop {
+      position: absolute;
+      z-index: 50;
+      display: none;
+      background-color: #EEEEEE!important;
+      width: 456px!important;
+      height: 386px!important;
+      margin-left: 73px!important;
+      top: 175px!important;
+      border-radius: 2px;
+      border: 1px solid #CCCCCC;
+      color: #EEEEEE;
+    }
+  }
 }

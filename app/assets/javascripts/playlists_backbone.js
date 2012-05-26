@@ -300,7 +300,9 @@ $(function() {
 			var attributes = {
 				newPosition: 0,
 				playlistId: this.model.get("id"),
-				videoId: $(ui.draggable).attr("videoId")
+				videoId: $(ui.draggable).attr("videoId"),
+				name: $(ui.draggable).find(".video-title").text(),
+				length: $(ui.draggable).find(".video-duration").text()
 			};
 			$.ajax({
 				url: "api/add_video_to_playlist",
