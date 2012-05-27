@@ -186,12 +186,13 @@ img.preview-video {
       margin-top: 8px;
       div#playlists {
         .playlist-cell-container {
-          .droppable-hover.droppable-active {
+        
+        }
+        .droppable-hover.droppable-active {
             background-color: gray
-          }
-          .droppable-active {
-            background-color: black
-          }
+        }
+        .droppable-active {
+          background-color: black
         }
       }
     }
