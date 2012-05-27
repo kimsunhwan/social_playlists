@@ -11,11 +11,11 @@ $(function() {
 		executeSearch: function(query) {
 			this.get("searchResultCollection").reset();
 			if (this.contentProvider == 1) {
-				var url = "https://gdata.youtube.com/feeds/api/videos?max-results=" + this.maxResults + "&start-index=" + this.startIndex + "&v=2&format=5&alt=jsonc&q=" + query
+				var url = "https://gdata.youtube.com/feeds/api/videos?max-results=" + this.maxResults + "&start-index=" + this.startIndex + "&v=2&format=5&alt=jsonc&q=" + query;
 				$.ajax({
-			    url: url,
+					url: url,
 					success: this.processYouTubeResults.bind(this)
-			  });
+				});
 			} else {
 				
 			}
@@ -25,25 +25,25 @@ $(function() {
 			var ytData, items, buildup;
 			ytData = data.data ? data.data : jQuery.parseJSON(data).data;
 			if (ytData.totalItems === 0) {
-		    //new NoResultsView();
-		    return;
+				//new NoResultsView();
+				return;
 			}
 			items = ytData.items;
 			buildup = [];
 			var item;
-		  for (var i = 0; i < items.length; i++) {
-		  	item = items[i];
-		    var videoResult = {
+			for (var i = 0; i < items.length; i++) {
+				item = items[i];
+				var videoResult = {
 					title: item.title,
-		     	thumb: ytIdToThumbnail(item.id),
-		     	videoId: item.id,
-		     	duration: formatSeconds(item.duration),
-		     	viewCount: item.viewCount ? item.viewCount : 0,
-		     	author: item.uploader
+					thumb: ytIdToThumbnail(item.id),
+					videoId: item.id,
+					duration: formatSeconds(item.duration),
+					viewCount: item.viewCount ? item.viewCount : 0,
+					author: item.uploader
 				};
-		    buildup.push(videoResult);
-		  }
-		  this.get("searchResultCollection").add(buildup);
+				buildup.push(videoResult);
+			}
+			this.get("searchResultCollection").add(buildup);
 		},
 		
 		processVimeoResults: function(data) {
@@ -60,7 +60,7 @@ $(function() {
 		},
 		
 		initialize: function() {
-			this.searchResultCollection = new Backbone.Collection;
+			this.searchResultCollection = new Backbone.Collection();
 			this.searchResultCollection.on("add", this.addSearchResultView);
 			this.searchResultCollection.on("reset", this.resetSearchView.bind(this));
 			this.model = new SearchModel({
@@ -159,9 +159,9 @@ $(function() {
 		
 		getUsersPlaylists: function() {
 			$.ajax({
-		    url: "/api/users_playlists",
+				url: "/api/users_playlists",
 				success: this.addUserPlaylists.bind(this)
-		  });
+			});
 		},
 		
 		addUserPlaylists: function(data) {
@@ -174,7 +174,7 @@ $(function() {
 					updated_at: item.updated_at,
 					id: item.id,
 					description: item.description
-				}
+				};
 				buildup.push(item);
 			}
 			this.playlistCollection.add(buildup);
@@ -230,7 +230,7 @@ $(function() {
 			var attributes = {
 				name: this.playlistNameInput.val(),
 				description: this.playlistDescriptionInput.val()
-			}
+			};
 			$.ajax({
 				url: "api/create_playlist",
 				success: this.playlistCreated.bind(this),
@@ -352,7 +352,7 @@ $(function() {
 					downvotes: item.downvotes,
 					thumb: ytIdToThumbnail(item.site_code),
 					duration: "0:00"
-				}
+				};
 				buildup.push(video);
 			}
 			this.videoCollection.reset(buildup);
@@ -387,14 +387,14 @@ $(function() {
 		
 		updatePosition: function(event, ui) {
 			// updates on client before callback from server is confirmed.
-			var videoId, playlistArray, newPosition;
+			var videoId, playlistArray, newPosition, attributes;
 			videoId = $(ui.item).attr("id");
 			if (!videoId) {
 				videoId = $(ui.item).attr("videoId");
 				$(ui.item).attr("id", videoId);
 				playlistArray = $(this.el).find("#videos").sortable("toArray");
 				newPosition = playlistArray.indexOf(videoId);
-				var attributes = {
+				attributes = {
 					playlistId: this.currentPlaylistId,
 					videoId: videoId,
 					thumb: ytIdToThumbnail(videoId),
@@ -402,7 +402,7 @@ $(function() {
 					title: $(ui.item).find(".video-title").html(),
 					upvotes: 0,
 					downvotes: 0
-				}
+				};
 				var newVideoModel = new VideoModel(attributes);
 				this.videoCollection.add(newVideoModel, {
 					at: newPosition,
@@ -417,7 +417,7 @@ $(function() {
 				playlistArray = $(this.el).find("#videos").sortable("toArray");
 				newPosition = playlistArray.indexOf(videoId);
 			}
-			var attributes = {
+			attributes = {
 				newPosition: newPosition,
 				playlistId: this.currentPlaylistId,
 				videoId: videoId
