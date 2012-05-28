@@ -1,0 +1,16 @@
+<h1>Admin interface</h1>
+
+<div id="admin-page">
+  <div id="categories-container">
+    <h2>Categories</h2>
+    <div id="categories"></div>
+    <div id="add-category"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    window.router = new AdminRouter({"categories": <%= @categories.to_json.html_safe -%>});
+    Backbone.history.start();
+  });
+</script>
