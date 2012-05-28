@@ -101,6 +101,7 @@ window.SearchResultView = Backbone.View.extend({
 	},
 
 	initialize: function() {
+		this.template = JST["templates/search_result"];
 		this.render();
 	},
 
@@ -278,6 +279,7 @@ window.PlaylistsCellView = Backbone.View.extend({
 	},
 
 	initialize: function() {
+		this.template = JST["templates/creation_playlist_cell"];
 		this.render();
 		this.videoModel = this.options.playlistsView.videoModel;
 	},
@@ -459,6 +461,7 @@ window.VideoCellView = Backbone.View.extend({
 	},
 
 	initialize: function() {
+		this.template = JST["templates/creation_video_cell"];
 		this.render();
 		if (!this.options.atIndex) {
 			$("#videos").append(this.el);
