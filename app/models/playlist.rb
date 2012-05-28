@@ -4,4 +4,5 @@ class Playlist < ActiveRecord::Base
   has_many :orderings
   has_many :videos, :through => :orderings
   belongs_to :user
+  has_many :playlist_ratings
 end

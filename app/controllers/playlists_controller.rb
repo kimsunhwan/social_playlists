@@ -23,6 +23,26 @@ class PlaylistsController < ApplicationController
   
   def add_video_to_playlist
     playlist = Playlist.find(params[:playlistId])
+    video = Video.find_by_site_code(params[:videoId])
+    newPosition = params[:newPosition]
+
+    if !video then
+      video = Video.new(:name => params[:name], :length => params[:length], 
+        :upvotes => 0, :downvotes => 0, :type_id => 1, :views => 0, :site_code => params[:videoId])
+      playlist.videos << video
+      video.save
+      playlist.save
+    end
+
+    playlist.orderings.each do |o|
+      if o.video_id == video.id then
+        o.order = newPosition
+        o.save
+      elsif Integer(o.order) >= Integer(newPosition) then
+        o.order += 1
+        o.save
+      end  
+    end
     
     render :json => nil
   end
