@@ -22,7 +22,6 @@ class PlaylistsController < ApplicationController
   end
   
   def add_video_to_playlist
-    puts params
     playlist = Playlist.find(params[:playlistId])
     
     render :json => nil
