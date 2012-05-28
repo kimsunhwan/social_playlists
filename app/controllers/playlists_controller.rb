@@ -24,7 +24,7 @@ class PlaylistsController < ApplicationController
   def add_video_to_playlist
     puts params
     playlist = Playlist.find(params[:playlistId])
-    video = Video.find_by_site_code(params[:videoId]).first
+    video = Video.find_by_site_code(params[:videoId])
     newPosition = params[:newPosition]
 
     if !video then
@@ -39,7 +39,7 @@ class PlaylistsController < ApplicationController
       if o.video_id == video.id then
         o.order = newPosition
         o.save
-      elsif o.order >= newPosition then
+      elsif Integer(o.order) >= Integer(newPosition) then
         o.order += 1
         o.save
       end  

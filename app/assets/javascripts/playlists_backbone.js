@@ -332,7 +332,7 @@ $(function() {
 		
 		loadVideos: function(videoId) {
 			$.ajax({
-				url: "/api/playlists_videos?id=" + videoId,
+				url: "/api/playlist?id=" + videoId,
 				success: this.renderVideos.bind(this)
 			});
 		},
