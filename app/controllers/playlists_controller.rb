@@ -1,6 +1,7 @@
 class PlaylistsController < ApplicationController
   def index
-    
+    @categories = Category.find(:all)
+    puts @categories.to_json
   end
   
   def users_playlists

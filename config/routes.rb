@@ -2,7 +2,8 @@ SampleApp::Application.routes.draw do
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :playlists
-  root to: 'static_pages#home'
+  resources :category
+  root to: 'watch#watch'
   
   match '/help',    to: 'static_pages#help'
   match '/about',   to: 'static_pages#about'
@@ -22,6 +23,8 @@ SampleApp::Application.routes.draw do
   match '/api/playlists_videos', to: 'playlists#playlists_videos'
   match '/api/create_playlist', to: 'playlists#create_playlist'
   match '/api/add_video_to_playlist', to: 'playlists#add_video_to_playlist'
+  
+  match 'admin', to: 'admin#admin'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

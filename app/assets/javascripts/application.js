@@ -15,4 +15,5 @@
 //= require bootstrap
 //= require underscore
 //= require backbone
+//= require backbone/sample_app
 //= require_tree .

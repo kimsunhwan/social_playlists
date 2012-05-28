@@ -25,7 +25,7 @@ Scroll menu for current playlist
 </div>
 
 <script>
-	// Taken from https://developers.google.com/youtube/player_parameters
+  // Taken from https://developers.google.com/youtube/player_parameters
 	// Load the IFrame Player API code asynchronously.
 	/*
 	var tag = document.createElement('script');
@@ -45,4 +45,7 @@ Scroll menu for current playlist
 	  	events: {'onStateChange': 'playNextVideo'}
 	  });
 	}
+  $(function() {
+    window.WatchPage = new WatchView();
+	});
 </script>

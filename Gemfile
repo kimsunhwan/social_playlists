@@ -35,7 +35,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'backbone-on-rails'
+gem "rails-backbone", git: "git://github.com/codebrew/backbone-rails.git", require: "backbone-rails"
 
 group :test do
   gem 'capybara', '1.1.2'

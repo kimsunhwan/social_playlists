@@ -21,6 +21,7 @@
         <input type="text" id="create-playlist-name"></input>
         Description:<br/>
         <textarea id="create-playlist-description" rows="3" cols="40"></textarea>
+        <%= collection_select(:category, :id, @categories, :id, :name, options = {:prompt => "-Select a category"}, :class =>"category_dropdown") %>
       </div>
       <div id="playlists"></div>
       <div id="create-playlist-modal"></div>
@@ -42,3 +43,13 @@
     <div id="preview-modal-backdrop"></div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(function() {
+    window.PlaylistCreationPage = new PlaylistCreationView();
+  	var params = { allowScriptAccess: "always" };
+  	var atts = { id: "myytpreviewplayer" };
+  	swfobject.embedSWF("http://www.youtube.com/v/Bje_8Y7KUfM?enablejsapi=1&playerapiid=myytpreviewplayer&version=3", "preview-modal", "425", "356", "8", null, null, params, atts);
+  	window.PlaylistCreationPage.previewView = new PreviewView();
+  });
+</script>
