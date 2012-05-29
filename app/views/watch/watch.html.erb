@@ -1,19 +1,24 @@
-<!--
-Put a view for viewing the video
-<%= render :partial => 'watch/watch_video', :locals => {:video => @playlist.videos[0]} %>
-Scroll menu for current playlist
-<%= render :partial => 'watch/show_playlist_scroll', :locals => {:playlist => @playlist, 
-																										:current => @playlist.videos[0]} %>
--->
 <% provide(:title, "Watch") %>
 <div id="watch-root">
   <div id="player-container">
 		<div id="video-player">
 		</div>
 	</div>
-	<div id="playlists-container">
-		Playlists:
-		<div id="playlist-results">
+	<div id="tabs-container">
+		<ul>
+			<li><a href="#playlist-results"><span>Playlists</span></a></li>
+			<li><a href="#video-comments-container"><span>Comments</span></a></li>
+		</ul>
+		<div id="playlists-container">
+			<div id="playlist-results">
+			</div>
+		</div>
+		<div id="video-comments-container">
+			<div id="video-comments">
+			</div>
+			<div id="new-video-comment">
+				<input id="new-comment-input" type="text" value="Write a comment..."/>
+			</div>
 		</div>
 	</div>
 	<div id="playlist-container">
@@ -48,4 +53,9 @@ Scroll menu for current playlist
   $(function() {
     window.WatchPage = new WatchView();
 	});
+
+	var newCommentField = document.getElementById('new-comment-input');
+	newCommentField.onkeypress = function(event) {
+		newComment(event, this.value);
+	}
 </script>

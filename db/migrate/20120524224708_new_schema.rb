@@ -17,6 +17,8 @@ class NewSchema < ActiveRecord::Migration
       t.references :video
       t.references :user
       t.string :comment
+
+      t.timestamps
     end
     
     create_table :playlist_ratings do |t|
@@ -24,6 +26,8 @@ class NewSchema < ActiveRecord::Migration
       t.references :playlist
       t.integer :rating
       t.string :comment
+
+      t.timestamps
     end
     
     create_table :followers do |t|

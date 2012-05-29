@@ -77,8 +77,84 @@ window.PlaylistResultView = Backbone.View.extend({
 	},
 
 	displayPlaylist: function() {
-		//window.WatchPage.PlaylistView.displayPlaylist(this.model.get("id"));
 		window.WatchPage.PlaylistView.getPlaylist(this.model.get("id"));
+	}
+});
+
+window.CommentsModel = Backbone.Model.extend({
+	getComments: function() {
+		var url = "api/video_comments?id=" + window.WatchPage.PlaylistView.getCurrentVideoId();
+		$.ajax({
+			url: url,
+			success: this.processComments.bind(this)
+		});
+	},
+
+	processComments: function(data) {
+		var results = [];
+		for (var i = 0; i < data.length; i++) {
+			results.push(data[i]);
+			console.log(data[i]);
+		}
+		this.get("comments").add(results);
+	}
+});
+
+window.CommentsView = Backbone.View.extend({
+	el: "#video-comments-container",
+
+	initialize: function() {
+		this.comments = new Backbone.Collection();
+		this.comments.on("add", this.addCommentView);
+		this.comments.on("reset", this.resetCommentView.bind(this));
+		this.model = new CommentsModel({
+			comments: this.comments
+		});
+
+		// bind action to fetch comments when tab is clicked
+		var obj = this;
+		$('#tabs-container').bind('tabsselect', function(event, ui) {
+			if (ui.index === 1) {
+				obj.getComments();
+			}
+		});
+	},
+
+	addCommentView: function(commentResult) {
+		new CommentView({
+			model: commentResult
+		});
+	},
+
+	resetCommentView: function() {
+		$("#video-comments").empty();
+		this.comments.each(function(commentResult) {
+			this.addPlaylistResultView(commentResult);
+		});
+	},
+
+	getComments: function() {
+		this.model.getComments();
+	},
+
+	newComment: function() {
+		this.getComments();
+	}
+});
+
+window.CommentView = Backbone.View.extend({
+	template: JST["templates/comment_element"],
+
+	className: "video-comments-container",
+
+	initialize: function() {
+		this.render();
+	},
+
+	render: function() {
+		$(this.el).html(this.template(this.model.toJSON()));
+		$("#video-comments").append(this.el);
+		return this;
 	}
 });
 
@@ -93,6 +169,10 @@ window.PlayerView = Backbone.View.extend({
 		// -anthony
 		if (window.player)
 			window.player.loadVideoById(site_code);
+	},
+
+	getCurrentVideoId: function() {
+		return this.currentVideoId;
 	}
 });
 
@@ -132,6 +212,7 @@ window.PlaylistView = Backbone.View.extend({
 		});
 		*/
 		this.currentPlaylistId = 0;
+		this.currentVideoId = 0;
 		this.currentVideoNumber = 0; // the order number of the currently playing video
 
 		//alert(JSON.stringify(this.options));
@@ -161,11 +242,13 @@ window.PlaylistView = Backbone.View.extend({
 		}
 		this.videos.add(results);
 
+		this.currentVideoId = this.videos.at(0).get("id");
 		this.currentVideoNumber = 0;
-		window.WatchPage.PlayerView.playVideo(this.videos.at(0).get("id"), this.videos.at(0).get("site_code"));
+		window.WatchPage.PlayerView.playVideo(this.currentVideoId, this.videos.at(0).get("site_code"));
 	},
 
 	setCurrentVideo: function(video_id) {
+		this.currentVideoId = video_id;
 		// Search for the given video_id in the collection of videos
 		for (var i = 0; i < this.videos.length; i++) {
 			if (this.videos.at(i).get("id") == video_id) {
@@ -201,8 +284,13 @@ window.PlaylistView = Backbone.View.extend({
 		this.currentVideoNumber += 1;
 		if (this.currentVideoNumber < this.videos.length) {
 			var video = this.videos.at(this.currentVideoNumber);
-			window.WatchPage.PlayerView.playVideo(video.get("id"), video.get("site_code"));
+			this.currentVideoId = video.get("id");
+			window.WatchPage.PlayerView.playVideo(this.currentVideoId, video.get("site_code"));
 		}
+	},
+
+	getCurrentVideoId: function() {
+		return this.currentVideoId;
 	}
 });
 
@@ -239,7 +327,13 @@ window.WatchView = Backbone.View.extend({
 		this.PlaylistView = new PlaylistView({
 			//playlistId: this.PlaylistsView.getPlaylistAtIndex(0)
 		});
+		this.CommentsView = new CommentsView();
 		this.PlayerView = new PlayerView();
+
+		// create the playlists/comments tab
+		$(function() {
+			$("#tabs-container").tabs({ fx: { height: 'toggle', opacity: 'toggle' } });
+		});
 	}
 });
 
@@ -272,4 +366,27 @@ function unhighlightPlaylistName(id) {
 	document.body.style.cursor = 'auto';
 	var e = document.getElementById("playlist-name" + id);
 	e.style.border = "";
+}
+
+function newComment(event, text) {
+	if (event.charCode === 13) {
+		var attributes = {
+			comment: text,
+			videoId: window.WatchPage.PlaylistView.getCurrentVideoId()
+		};
+
+		console.log(attributes);
+
+		var url = "api/new_comment";
+		$.ajax({
+			url: url,
+			success: newCommentPosted,
+			type: "POST",
+			data: attributes
+		});
+	}
+}
+
+function newCommentPosted(response) {
+	window.WatchPage.CommentsView.newComment();
 }

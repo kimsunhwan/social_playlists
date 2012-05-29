@@ -21,4 +21,18 @@ class WatchController < ApplicationController
 		render :json => video
 	end
 
+	def get_video_comments
+		video = Video.find(params[:id])
+		render :json => video.video_comments.order('"video_comments"."created_at" ASC')
+	end
+
+	def new_video_comment
+		c = VideoComment.new(:video_id => params[:videoId], :comment => params[:comment])
+		current_user.video_comments << c
+		c.save
+		current_user.save
+
+		render :json => nil
+	end
+
 end
