@@ -3,6 +3,10 @@
   <div id="player-container">
 		<div id="video-player">
 		</div>
+		<div id="vote-buttons">
+			<input id="video-upvote-button" class="btn" type="button" value="Upvote" />
+			<input id="video-downvote-button" class="btn" type="button" value="Downvote" />
+		</div>
 	</div>
 	<div id="tabs-container">
 		<ul>
@@ -17,7 +21,7 @@
 			<div id="video-comments">
 			</div>
 			<div id="new-video-comment">
-				<input id="new-comment-input" type="text" value="Write a comment..."/>
+				<input id="new-comment-input" type="text" value="Write a comment..." />
 			</div>
 		</div>
 	</div>
@@ -57,5 +61,16 @@
 	var newCommentField = document.getElementById('new-comment-input');
 	newCommentField.onkeypress = function(event) {
 		newComment(event, this);
+	}
+
+	var upvote = document.getElementById('video-upvote-button');
+	var downvote = document.getElementById('video-downvote-button');
+
+	upvote.onclick = function(event) {
+		voteCurrentVideo(1);
+	}
+
+	downvote.onclick = function(event) {
+		voteCurrentVideo(-1);
 	}
 </script>

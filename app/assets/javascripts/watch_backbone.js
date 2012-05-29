@@ -391,3 +391,36 @@ function newComment(event, inputField) {
 function newCommentPosted(response) {
 	window.WatchPage.CommentsView.newComment();
 }
+
+// n = 1 signifies upvote, n = -1 signifies downvote
+function voteCurrentVideo(n) {
+	var attributes = {
+		id: window.WatchPage.PlaylistView.getCurrentVideoId()
+	};
+	var url;
+
+	if (n === 1) {
+		url = "api/upvote_video";
+		$.ajax({
+			url: url,
+			success: videoVoted,
+			type: "POST",
+			data: attributes
+		});
+	} else if (n === -1) {
+		url = "api/downvote_video";
+		$.ajax({
+			url: url,
+			success: videoVoted,
+			type: "POST",
+			data: attributes
+		});
+	} else {
+		return;
+	}
+}
+
+// Does nothing for now
+function videoVoted(response) {
+	return;
+}
