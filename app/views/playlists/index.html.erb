@@ -22,6 +22,11 @@
         Description:<br/>
         <textarea id="create-playlist-description" rows="3" cols="40"></textarea>
         <%= collection_select(:category, :id, @categories, :id, :name, options = {:prompt => "-Select a category"}, :class =>"category_dropdown") %>
+        Tags(comma separated):<br/>
+        <input type="text" id="create-playlist-tags"></input>
+      </div>
+      <div id="confirm-playlist-delete" title="Delete playlist?">
+        <p>This playlist and its videos will be deleted permanently from your account.</p>
       </div>
       <div id="playlists"></div>
       <div id="create-playlist-modal"></div>

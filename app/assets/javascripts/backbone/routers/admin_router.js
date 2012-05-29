@@ -15,7 +15,9 @@ window.AdminRouter = Backbone.Router.extend({
 	},
 	
 	destroy:function(id) {
-		this.categories.get(id).destroy();
+		this.categories.get(id).destroy({
+			wait: true
+		});
 	},
 	
 	index: function() {

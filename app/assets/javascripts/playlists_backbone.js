@@ -172,9 +172,11 @@ window.CreatePlaylistsModel = Backbone.Model.extend({
 				name: item.name,
 				updated_at: item.updated_at,
 				id: item.id,
-				description: item.description
+				description: item.description,
+				tags: ["fake", "tags"],
+				category: item.category
 			};
-			buildup.push(item);
+			buildup.push(playlist);
 		}
 		this.playlistCollection.add(buildup);
 	}
@@ -192,9 +194,13 @@ window.CreatePlaylistsView = Backbone.View.extend({
 
 	initialize: function() {
 		this.currentView = 1;
+		this.createView = true;
 		this.createDialog = $(this.el).find("#create-playlist-container");
+		this.deleteDialog = $(this.el).find("#confirm-playlist-delete");
 		this.playlistNameInput = this.createDialog.find("#create-playlist-name");
 		this.playlistDescriptionInput = this.createDialog.find("#create-playlist-description");
+		this.playlistCategoryInput = this.createDialog.find(".category_dropdown");
+		this.playlistTagInput = this.createDialog.find("#create-playlist-tags");
 		this.playlistCollection = new Backbone.Collection();
 		this.playlistCollection.on("add", this.addPlaylistCellView.bind(this));
 		this.playlistsModel = new CreatePlaylistsModel({
@@ -221,14 +227,16 @@ window.CreatePlaylistsView = Backbone.View.extend({
 					$(this).dialog("close");
 				}
 			},
-			position: [790, 130]
+			position: [790, 100]
 		});
 	},
 
 	createPlaylist: function() {
 		var attributes = {
 			name: this.playlistNameInput.val(),
-			description: this.playlistDescriptionInput.val()
+			description: this.playlistDescriptionInput.val(),
+			category: this.playlistCategoryInput.val(),
+			tags: ["fake", "tags"]
 		};
 		$.ajax({
 			url: "api/create_playlist",
@@ -239,11 +247,28 @@ window.CreatePlaylistsView = Backbone.View.extend({
 	},
 
 	playlistCreated: function(response) {
+		console.log(response);
+		response.tags = ["fake", "tags"];
 		this.playlistCollection.add(response);
 		this.createDialog.dialog("close");
 	},
 
 	openCreateDialog: function() {
+		if (!this.createView) {
+			this.createView = true;
+			this.playlistNameInput.val("");
+			this.playlistDescriptionInput.val("");
+			this.playlistCategoryInput.val("");
+			this.playlistTagInput.val("");
+			this.createDialog.dialog("option", "buttons", {
+				"Create Playlist": function() {
+					this.createPlaylist();
+				}.bind(this),
+				"Cancel": function() {
+					$(this).dialog("close");
+				}
+			});
+		}
 		this.createDialog.dialog("open");
 	},
 
@@ -275,11 +300,14 @@ window.PlaylistsCellView = Backbone.View.extend({
 	className: "playlist-cell-container",
 
 	events: {
-		"click" : "loadVideos"
+		"click .playlist-name" : "loadVideos",
+		"click .edit-button" : "showEditScreen",
+		"click .destroy-button" : "deleteConfirm"
 	},
 
 	initialize: function() {
 		this.template = JST["templates/creation_playlist_cell"];
+		this.model.bind("destroy", this.removeView.bind(this));
 		this.render();
 		this.videoModel = this.options.playlistsView.videoModel;
 	},
@@ -294,6 +322,81 @@ window.PlaylistsCellView = Backbone.View.extend({
 			drop: this.addVideoToPlaylist.bind(this)
 		});
 		return this;
+	},
+	
+	showEditScreen: function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		this.options.playlistsView.playlistNameInput.val(this.model.get("name"));
+		this.options.playlistsView.playlistDescriptionInput.val(this.model.get("description"));
+		this.options.playlistsView.playlistCategoryInput.val(this.model.get("category"));
+		this.options.playlistsView.playlistTagInput.val(this.model.get("tags").join(", "));
+		if (this.options.playlistsView.createView) {
+			this.options.playlistsView.createView = false;
+			this.options.playlistsView.createDialog.dialog("option", "buttons", {
+				"Apply Changes": function() {
+					this.editPlaylist();
+				}.bind(this),
+				"Cancel": function() {
+					$(this).dialog("close");
+				}
+			});
+		}
+		this.options.playlistsView.createDialog.dialog("open");
+	},
+	
+	editPlaylist: function(event) {
+		this.options.playlistsView.createDialog.dialog("close");
+		var attributes = {
+			name: this.options.playlistsView.playlistNameInput.val(),
+			description: this.options.playlistsView.playlistDescriptionInput.val(),
+			category: this.options.playlistsView.playlistCategoryInput.val(),
+			tags: ["fake", "tags"],
+			id: this.model.get("id")
+		};
+		$.ajax({
+			url: "api/update_playlist",
+			success: this.playlistUpdated.bind(this),
+			type: "UPDATE",
+			data: attributes
+		});
+	},
+	
+	playlistUpdated: function(model, response) {
+		
+	},
+	
+	deleteConfirm: function() {
+		event.preventDefault();
+		event.stopPropagation();
+		this.options.playlistsView.deleteDialog.dialog({
+			resizable: false,
+			buttons: {
+				"Delete playlist": function() {
+					this.deletePlaylist();
+				}.bind(this),
+				"Cancel": function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+	},
+	
+	deletePlaylist: function() {
+		this.options.playlistsView.deleteDialog.dialog("close");
+		var attributes = {
+			id: this.model.get("id")
+		};
+		$.ajax({
+			url: "api/delete_playlist",
+			success: this.removeView.bind(this),
+			type: "DELETE",
+			data: attributes
+		});
+	},
+	
+	removeView: function() {
+		$(this.el).remove();
 	},
 
 	addVideoToPlaylist: function(event, ui) {
@@ -313,7 +416,7 @@ window.PlaylistsCellView = Backbone.View.extend({
 	},
 
 	videoAdded: function(dataResponse) {
-	
+		//some animation to show video was added to playlist
 	},
 
 	loadVideos: function() {
@@ -338,7 +441,6 @@ window.VideoModel = Backbone.Model.extend({
 	},
 
 	renderVideos: function(data) {
-		console.log(data);
 		var item, buildup;
 		buildup = [];
 		for (var i = 0; i < data.length; i++) {

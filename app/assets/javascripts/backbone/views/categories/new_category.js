@@ -15,11 +15,7 @@ window.Categories.NewView = Backbone.View.extend({
 		event.preventDefault();
 		event.stopPropagation();
 		
-		var attributes = {
-			name: $(this.el).find("#name").val()
-		}
-		
-		this.collection.create(attributes, {
+		this.collection.create(this.model.toJSON(), {
 			success: function(model, response) {
 				this.collection.trigger("serverCreated", model.set("id", response.success.id));
 			}.bind(this),
@@ -34,6 +30,7 @@ window.Categories.NewView = Backbone.View.extend({
 	
 	render: function() {
 		$(this.el).html(this.template);
+		$(this.el).find("form").backboneLink(this.model);
 		return this;
 	}
 });
