@@ -94,7 +94,6 @@ window.CommentsModel = Backbone.Model.extend({
 		var results = [];
 		for (var i = 0; i < data.length; i++) {
 			results.push(data[i]);
-			console.log(data[i]);
 		}
 		this.get("comments").add(results);
 	}
@@ -368,14 +367,12 @@ function unhighlightPlaylistName(id) {
 	e.style.border = "";
 }
 
-function newComment(event, text) {
+function newComment(event, inputField) {
 	if (event.charCode === 13) {
 		var attributes = {
-			comment: text,
+			comment: inputField.value,
 			videoId: window.WatchPage.PlaylistView.getCurrentVideoId()
 		};
-
-		console.log(attributes);
 
 		var url = "api/new_comment";
 		$.ajax({
@@ -384,6 +381,8 @@ function newComment(event, text) {
 			type: "POST",
 			data: attributes
 		});
+
+		inputField.value = "Write a comment...";
 	}
 }
 

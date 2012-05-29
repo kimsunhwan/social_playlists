@@ -22,8 +22,18 @@ class WatchController < ApplicationController
 	end
 
 	def get_video_comments
-		video = Video.find(params[:id])
-		render :json => video.video_comments.order('"video_comments"."created_at" ASC')
+		comments = Video.find(params[:id]).video_comments.order('"video_comments"."created_at" ASC')
+
+		formatted = Array.new
+		comments.each do |c|
+			comment = Hash.new
+			comment[:comment] = c.comment
+			comment[:user] = c.user.name
+			comment[:timestamp] = c.created_at
+			formatted << comment
+		end
+
+		render :json => formatted
 	end
 
 	def new_video_comment
