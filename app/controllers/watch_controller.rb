@@ -46,6 +46,9 @@ class WatchController < ApplicationController
 	end
 
 	def upvote_video
+		if !params[:id] then
+			render :json => nil
+		end
 		v = Video.find(params[:id])
 
 		if !VideoUpvote.where("video_id = ? AND user_id = ?", params[:id], current_user.id) then
@@ -60,6 +63,9 @@ class WatchController < ApplicationController
 	end
 
 	def downvote_video
+		if !params[:id] then
+			render :json => nil
+		end
 		v = Video.find(params[:id])
 
 		if !VideoDownvote.find("video_id = ? AND user_id = ?", params[:id], current_user.id) then
