@@ -1,7 +1,26 @@
 class PlaylistsController < ApplicationController
   def index
     @categories = Category.find(:all)
-    puts @categories.to_json
+  end
+  
+  def destroy
+    @playlist = Playlist.find(params[:id])
+    @playlist.orderings.each do |o|
+      o.delete
+    end
+    @playlist.delete
+    render :json => @playlist
+    
+  end
+  
+  def update
+    @playlist = Playlist.find(params[:id])
+    @playlist.name = params[:name]
+    @playlist.description = params[:description]
+    @playlist.category = params[:category]
+    # tags
+    @playlist.save
+    render :json => @playlist
   end
   
   def users_playlists
@@ -15,7 +34,8 @@ class PlaylistsController < ApplicationController
   end
   
   def create_playlist
-    playlist = Playlist.new(:name => params[:name], :upvotes => 0, :downvotes => 0)
+    playlist = Playlist.new(:name => params[:name], :upvotes => 0, :downvotes => 0, :category => params[:category], 
+      :description => params[:description])
     current_user.playlists << playlist
     playlist.save
     current_user.save

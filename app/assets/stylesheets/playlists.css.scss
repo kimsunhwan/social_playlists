@@ -23,6 +23,62 @@ div.search-result-container {
   display: none;
 }
 
+.video-cell-container {
+  margin-bottom: 16px;
+  height: 56px;
+  font-size: 14px;
+  cursor: pointer;
+  .video-thumbnail {
+    width: 120px;
+    height: 56px;
+    overflow: hidden;
+    float: left;
+    img {
+      margin-top: -14px;
+    }
+  }
+  .video-info {
+    float: left;
+    width: 190px;
+    .video-name {
+      height: 56px;
+      padding-left: 6px;
+    }
+    .video-upvote {
+      cursor: pointer;
+      position: relative;
+      float: right;
+      margin-top: -32px;
+      margin-right: -8px;
+      background-image:url('/images/uv.png');
+      color: transparent;
+      height: 12px;
+      width: 10px;
+    }
+    .video-downvote {
+      cursor: pointer;
+      position: relative;
+      float: right;
+      margin-top: -18px;
+      margin-right: -8px;
+      background-image:url('/images/dv.png');
+      color: transparent;
+      height: 12px;
+      width: 10px;
+    }
+  }
+  .video-cell-options {
+    cursor: pointer;
+    position: relative;
+    float: right;
+    margin-top: -58px;
+    margin-right: -3px;
+  }
+  &:hover {
+    background-color: #EEEEEE;
+  }
+}
+
 #search-container {
   background-color: white!important;
   overflow-y: scroll!important;
@@ -91,11 +147,16 @@ img.preview-video {
 #playlists-title {
   text-indent: 4px;
   font-size: 20px;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 #videos-container {
   margin-top: 8px;
   background-color: white!important;
+  border-left: 1px solid #EEEEEE;
 }
 
 #preview-close {
@@ -114,6 +175,13 @@ img.preview-video {
 }
 
 #create-playlist-container {
+  display: none;
+  font-size: 16px;
+  margin-top: -12px;
+  text-indent: 2px;
+}
+
+#confirm-playlist-delete {
   display: none;
 }
 
@@ -135,7 +203,31 @@ img.preview-video {
 }
 
 .ui-dialog {
-  background-color: lightblue;
+  background-color: white;
+  border-top: 4px solid #EEEEEE;
+  border-bottom: 4px solid #EEEEEE;
+  left: 737px!important;
+  width: 324px!important;
+  top: -578px!important;
+  .ui-dialog-titlebar-close {
+    display: none;
+  }
+}
+
+.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
+  .ui-dialog-buttonset {
+    text-align: center;
+    button {
+      background-color: #EEEEEE;
+      border: none;
+      color: black;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+    .ui-button {
+      margin-right: 6px;
+    }
+  }
 }
 
 #playlists-root {
@@ -144,7 +236,7 @@ img.preview-video {
     overflow-y: scroll!important;
     overflow-x: hidden!important;
     float: left;
-    height: 550px;
+    height: 576px;
     width: 600px;
     overflow: scroll;
     z-index: 52;
@@ -179,14 +271,21 @@ img.preview-video {
       float: left;
       height: 550px;
       width: 340px;
-      background-color: gray;
+      background-color: white;
       overflow-y: scroll;
       text-indent: 4px;
       font-size: 16px;
       margin-top: 8px;
       div#playlists {
         .playlist-cell-container {
-        
+          .playlist-info {
+            .playlist-name {
+            
+            }
+            .cell-buttons {
+              float: right;
+            }
+          }
         }
         .droppable-hover.droppable-active {
             background-color: gray
@@ -198,7 +297,7 @@ img.preview-video {
     }
     div#videos-container {
       div#videos {
-        background-color: gray;
+        background-color: white;
         padding: 5px;
       }
     }

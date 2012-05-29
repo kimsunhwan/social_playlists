@@ -24,7 +24,9 @@ SampleApp::Application.routes.draw do
   match '/api/users_playlists', to: 'playlists#users_playlists'
   match '/api/playlists_videos', to: 'playlists#playlists_videos'
   match '/api/create_playlist', to: 'playlists#create_playlist'
+  match '/api/delete_playlist', to: 'playlists#destroy'
   match '/api/add_video_to_playlist', to: 'playlists#add_video_to_playlist'
+  match '/api/update_playlist', to: 'playlists#update'
   
   match 'admin', to: 'admin#admin'
 

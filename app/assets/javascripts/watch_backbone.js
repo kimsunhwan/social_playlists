@@ -127,9 +127,7 @@ window.CommentsView = Backbone.View.extend({
 
 	resetCommentView: function() {
 		$("#video-comments").empty();
-		this.comments.each(function(commentResult) {
-			this.addPlaylistResultView(commentResult);
-		});
+		this.getComments();
 	},
 
 	getComments: function() {
@@ -285,6 +283,8 @@ window.PlaylistView = Backbone.View.extend({
 			var video = this.videos.at(this.currentVideoNumber);
 			this.currentVideoId = video.get("id");
 			window.WatchPage.PlayerView.playVideo(this.currentVideoId, video.get("site_code"));
+
+			window.WatchPage.CommentsView.resetCommentView();
 		}
 	},
 
@@ -317,6 +317,8 @@ window.VideoResultView = Backbone.View.extend({
 		window.WatchPage.PlaylistView.setCurrentVideo(this.model.get("id"));
 
 		window.WatchPage.PlayerView.playVideo(this.model.get("id"), this.model.get("site_code"));
+
+		window.WatchPage.CommentsView.resetCommentView();
 	}
 });
 

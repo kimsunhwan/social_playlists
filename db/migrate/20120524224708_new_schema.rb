@@ -66,9 +66,11 @@ class NewSchema < ActiveRecord::Migration
     drop_table :playlist_ratings
     drop_table :video_comments
     
-    change_table :playlists do |t|
-      remove_column :video_upvotes, :video_downvotes, :category, :description, :private
-    end
+    remove_column :playlists, :video_upvotes
+    remove_column :playlists, :video_downvotes
+    remove_column :playlists, :category
+    remove_column :playlists, :description
+    remove_column :playlists, :private
     
     change_table :videos do |t|
       t.remove :length

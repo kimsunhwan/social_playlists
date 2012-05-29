@@ -52,9 +52,9 @@ ActiveRecord::Schema.define(:version => 20120529092805) do
     t.datetime "updated_at",      :null => false
     t.integer  "video_upvotes"
     t.integer  "video_downvotes"
-    t.string   "category"
     t.string   "description"
     t.boolean  "private"
+    t.integer  "category"
   end
 
   create_table "playlists_videos", :force => true do |t|
