@@ -135,7 +135,7 @@ window.CommentsView = Backbone.View.extend({
 	},
 
 	newComment: function() {
-		this.getComments();
+		this.resetCommentView();
 	}
 });
 
@@ -394,8 +394,9 @@ function newCommentPosted(response) {
 
 // n = 1 signifies upvote, n = -1 signifies downvote
 function voteCurrentVideo(n) {
+	var videoId = window.WatchPage.PlaylistView.getCurrentVideoId();
 	var attributes = {
-		id: window.WatchPage.PlaylistView.getCurrentVideoId()
+		id: videoId
 	};
 	var url;
 
@@ -403,7 +404,7 @@ function voteCurrentVideo(n) {
 		url = "api/upvote_video";
 		$.ajax({
 			url: url,
-			success: videoVoted,
+			success: function(response) { videoVoted(videoId, 1, response); },
 			type: "POST",
 			data: attributes
 		});
@@ -411,7 +412,7 @@ function voteCurrentVideo(n) {
 		url = "api/downvote_video";
 		$.ajax({
 			url: url,
-			success: videoVoted,
+			success: function(response) { videoVoted(videoId, -1, response); },
 			type: "POST",
 			data: attributes
 		});
@@ -420,7 +421,17 @@ function voteCurrentVideo(n) {
 	}
 }
 
-// Does nothing for now
-function videoVoted(response) {
-	return;
+// reload the votes for that video
+function videoVoted(videoId, n, response) {
+	// if the vote didn't go through, don't update the votes
+	if (response.success === false) return;
+
+	var vote;
+
+	if (n === 1) {
+		vote = document.getElementById('video-upvotes-' + videoId);
+	} else {
+		vote = document.getElementById('video-downvotes-' + videoId);
+	}
+	vote.innerHTML = (parseInt(vote.innerHTML, 10) + 1) + "";
 }
