@@ -46,37 +46,46 @@ class WatchController < ApplicationController
 	end
 
 	def upvote_video
-		if !params[:id] then
-			render :json => nil
+		if !params[:id] || !current_user then
+			render :json => { :success => false }
 		end
 		v = Video.find(params[:id])
 
-		if !VideoUpvote.where("video_id = ? AND user_id = ?", params[:id], current_user.id) then
+		if !user_has_voted_on_video?(current_user.id, params[:id]) then
 			u = VideoUpvote.new(:user_id => current_user.id, :video_id => params[:id])
 			v.video_upvotes << u
 			v.upvotes += 1
 			v.save
 			u.save
-		end
 
-		render :json => nil
+			render :json => { :success => true }
+		else 
+			render :json => { :success => false }
+		end
 	end
 
 	def downvote_video
-		if !params[:id] then
-			render :json => nil
+		if !params[:id] || !current_user then
+			render :json => { :success => false }
 		end
 		v = Video.find(params[:id])
 
-		if !VideoDownvote.find("video_id = ? AND user_id = ?", params[:id], current_user.id) then
+		if !user_has_voted_on_video?(current_user.id, params[:id]) then
 			d = VideoDownvote.new(:user_id => current_user.id, :video_id => params[:id])
 			v.video_downvotes << d
 			v.downvotes += 1
 			v.save
-			u.save
-		end
+			d.save
 
-		render :json => nil
+			render :json => { :success => true }
+		else
+			render :json => { :success => false }
+		end
+	end
+
+	def user_has_voted_on_video?(user_id, video_id)
+		return VideoUpvote.where("video_id = ? AND user_id = ?", video_id, user_id).length > 0 || 
+			VideoDownvote.where("video_id = ? AND user_id = ?", video_id, user_id).length > 0
 	end
 
 end
