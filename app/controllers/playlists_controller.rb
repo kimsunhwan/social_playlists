@@ -69,6 +69,20 @@ class PlaylistsController < ApplicationController
   end
   
   def remove_video_from_playlist
+    playlist = Playlist.find(params[:playlistId])
+    oldPosition = Ordering.find_by_playlist_id_and_video_id(params[:playlistId], params[:videoId]).order
+    
+    playlist.orderings.each do |o|
+      if Integer(o.order) == oldPosition then
+        o.destroy
+      end
+      if Integer(o.order) > oldPosition then
+        o.order -= 1
+        o.save
+      end
+    end
+    
+    render :json => { :success => playlist }
     
   end
 end
