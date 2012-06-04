@@ -384,7 +384,7 @@ function newComment(event, inputField) {
 			data: attributes
 		});
 
-		inputField.value = "Write a comment...";
+		inputField.value = "";
 	}
 }
 
