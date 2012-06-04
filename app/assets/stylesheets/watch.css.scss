@@ -29,6 +29,27 @@
   overflow-y: hidden;
   height: 130px;
   padding-top: 16px;
+  border-top: 2px solid #EEEEEE;
+  .video-cell-template {
+    .video-votes-container {
+      position: relative;
+      float: left;
+      top: -28px;
+      .video-votes {
+        width: 14px;
+        cursor: pointer;
+      }
+      .video-votes-count {
+        color: white;
+        line-height: 24px;
+      }
+      .video-votes, .video-votes-count {
+        float: left;
+        height: 24px;
+        margin-left: 4px;
+      } 
+    }
+  }
 }
 
 #video-results {
@@ -38,6 +59,26 @@
 
 #player-container {
 	float: left;
+	#vote-buttons {
+	  .btn {
+	    height: 40px;
+	    font-size: 14px;
+	  }
+	  #video-upvote-button {
+	    width: 90px;
+	    height: 40px;
+	    background-image: url('/images/upvote-40px.png');
+	    background-position:0% 50%;
+	    background-repeat: no-repeat; 
+	    text-indent: 27px;
+	  }
+	  #video-downvote-button {
+	    width: 40px;
+	    background-image: url('/images/downvote-40px.png');
+	    background-position: 50% 50%;
+	    background-repeat: no-repeat;
+	  }
+	}
 }
 
 #watch-root #playlists-container {
@@ -78,6 +119,14 @@ div#videos-container {
   color: white;
   width: 120px;
   background: rgba(0, 0, 0, 0.3);
+  .video-name {
+    height: 34px;
+  }
+  .video-votes-container {
+    .video-votes {
+      cursor: pointer;
+    }
+  }
 }
 
 .ui-tabs-hide {
