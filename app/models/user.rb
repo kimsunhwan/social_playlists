@@ -38,6 +38,7 @@ class User < ActiveRecord::Base
   
   def follow!(other_user)
     self.relationships.create!(followed_id: other_user.id)
+    # ! means throw an exception
   end
   
   def unfollow!(other_user)
