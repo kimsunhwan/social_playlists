@@ -12,13 +12,13 @@ $(function() {
     randomNum = 0;
     images = $("td").find("img");
     imageIndex = -1; 
-    for (i = 0; i < images.length; i++) { 
+    for (i = 1; i < images.length; i++) { 
         btxtitle = $(images[i]).attr("bt-xtitle");
         if (btxtitle.indexOf("carpe diem") != -1) { 
             break;
         }
         index = btxtitle.indexOf("oops, missed this day");
-        if (index != -1) {
+        if (index != -1 && i % 9 != 0) {
             prefix = btxtitle.substr(0, index);
             randomNum = Math.floor((Math.random() * 700) - 350);
             newTitle = prefix + "<br /> " + (seedNum + randomNum) + " words";
