@@ -1,8 +1,14 @@
 SampleApp::Application.routes.draw do
-  resources :users
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
+
   resources :sessions, only: [:new, :create, :destroy]
   resources :playlists
   resources :category
+  resources :relationships, only: [:create, :destroy]
   root to: 'watch#watch'
   
   match '/help',    to: 'static_pages#help'
@@ -22,6 +28,7 @@ SampleApp::Application.routes.draw do
   match '/api/new_comment', to: 'watch#new_video_comment'
   match '/api/upvote_video', to: 'watch#upvote_video'
   match '/api/downvote_video', to: 'watch#downvote_video'
+  match '/api/playlists_for_category', to: 'watch#playlists_by_category'
   
   match '/api/users_playlists', to: 'playlists#users_playlists'
   match '/api/playlists_videos', to: 'playlists#playlists_videos'
@@ -29,6 +36,7 @@ SampleApp::Application.routes.draw do
   match '/api/delete_playlist', to: 'playlists#destroy'
   match '/api/add_video_to_playlist', to: 'playlists#add_video_to_playlist'
   match '/api/update_playlist', to: 'playlists#update'
+  match '/api/remove_video_from_playlist', to: 'playlists#remove_video_from_playlist'
   
   match 'admin', to: 'admin#admin'
 

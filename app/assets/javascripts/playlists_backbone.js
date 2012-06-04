@@ -211,7 +211,8 @@ window.CreatePlaylistsView = Backbone.View.extend({
 			videoCollection: this.videoCollection
 		});
 		this.videoView = new VideoView({
-			videoCollection: this.videoCollection
+			videoCollection: this.videoCollection,
+			videoModel: this.videoModel
 		});
 		this.setupCreateDialog();
 	},
@@ -433,9 +434,10 @@ window.VideoModel = Backbone.Model.extend({
 		this.videoCollection = this.get("videoCollection");
 	},
 
-	loadVideos: function(videoId) {
+	loadVideos: function(playlistId) {
+		this.playlistId = playlistId;
 		$.ajax({
-			url: "/api/playlist?id=" + videoId,
+			url: "/api/playlist?id=" + playlistId,
 			success: this.renderVideos.bind(this)
 		});
 	},
@@ -445,6 +447,7 @@ window.VideoModel = Backbone.Model.extend({
 		buildup = [];
 		for (var i = 0; i < data.length; i++) {
 			item = data[i];
+			console.log(item);
 			var video = {
 				title: item.name,
 				videoId: item.site_code,
@@ -512,10 +515,15 @@ window.VideoView = Backbone.View.extend({
 			});
 			new VideoCellView({
 				model: newVideoModel,
-				atIndex: newPosition
+				atIndex: newPosition,
+				playlistId: this.currentPlaylistId
 			});
 			$(ui.item).remove();
 		} else {
+			// get old position
+			// find model in collection
+			// change order of the model to new position
+			// so when the delete button gets clicked, it'll know what the order for that 
 			playlistArray = $(this.el).find("#videos").sortable("toArray");
 			newPosition = playlistArray.indexOf(videoId);
 		}
@@ -538,7 +546,8 @@ window.VideoView = Backbone.View.extend({
 
 	addVideoCell: function(video) {
 		new VideoCellView({
-			model: video
+			model: video,
+			playlistId: this.currentPlaylistId
 		});
 	},
 
@@ -579,7 +588,20 @@ window.VideoCellView = Backbone.View.extend({
 	},
 
 	removeVideo: function() {
-		console.log("remove video");
+		var attributes = {
+			playlistId: this.options.playlistId,
+			videoId: this.model.get("id")
+		}
+		$.ajax({
+			url: "/api/remove_video_from_playlist",
+			data: attributes,
+			success: this.removeVideoView.bind(this),
+			type: "POST"
+		});
+	},
+	
+	removeVideoView: function() {
+		$(this.el).remove();
 	}
 
 });

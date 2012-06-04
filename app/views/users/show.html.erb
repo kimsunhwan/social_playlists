@@ -2,18 +2,41 @@
 <div class="row">
   <aside class="span4">
     <section>
-      <h1>
-        <%= gravatar_for @user %>
-        <%= @user.name %>
-      </h1>
+      <%= gravatar_for @user %>
+      <h1><%= @user.name %></h1>
+      <span><%= link_to "view my profile", @user %></span>
+    </section>
+    <section>
+      <%= render 'shared/stats' %>
+    </section>
+    <section>
+      <%= render "follow_form" if signed_in? %>
     </section>
   </aside>
-</div>
-<div class="user-playlists">
-	<h3>Playlists</h3>
-	<% if @user.playlists.any? then %>
+  <div class="span8">
+    <div id="user-playlists">
+    	<h3>Created</h3>
+    	<% if @user.playlists.any? %>
 
-	<% else %>
-		You don't currently have any playlists.
-	<% end %>
+    	<% else %>
+    		No playlists have been created.
+    	<% end %>
+    </div>
+    <div id="watched-playlists">
+    	<h3>Watched</h3>
+    	<% if @user.playlists.any? %>
+
+    	<% else %>
+    		No recently watched playlists.
+    	<% end %>
+    </div>
+    <div id="commented-videos">
+    	<h3>Commented</h3>
+    	<% if @user.playlists.any? %>
+
+    	<% else %>
+    		Haven't commented on any videos.
+    	<% end %>
+    </div>
+  </div>
 </div>

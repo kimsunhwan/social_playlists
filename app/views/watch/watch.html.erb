@@ -16,6 +16,15 @@
 			<li><a href="#video-comments-container"><span>Comments</span></a></li>
 		</ul>
 		<div id="playlists-container">
+		  <div id="category-container">
+		    <table>
+		      <tr id="category-header">
+		        <td id="category-nav-left"><</td>
+		        <td id="category-title"></td>
+		        <td id="category-nav-right">></td>
+		      </tr>
+		    </table>
+		  </div>
 			<div id="playlist-results">
 			</div>
 		</div>
@@ -59,7 +68,7 @@
 	  });
 	}
   $(function() {
-    window.WatchPage = new WatchView();
+    window.WatchPage = new WatchView({"categories": <%= @categories.to_json.html_safe -%>});
 	});
 
 	var newCommentField = document.getElementById('new-comment-input');

@@ -17,7 +17,7 @@ window.PlaylistsModel = Backbone.Model.extend({
 		for (var i = 0; i < data.length; i++) {
 			results.push(data[i]);
 		}
-		this.get("playlists").add(results);
+		this.get("playlists").reset(results);
 	}
 });
 
@@ -31,8 +31,6 @@ window.PlaylistsView = Backbone.View.extend({
 		this.model = new PlaylistsModel({
 			playlists: this.playlists
 		});
-
-		this.model.getPlaylists();
 	},
 
 	addPlaylistResultView: function(playlistResult) {
@@ -45,7 +43,7 @@ window.PlaylistsView = Backbone.View.extend({
 		$("#playlist-results").empty();
 		this.playlists.each(function(playlistResult) {
 			this.addPlaylistResultView(playlistResult);
-		});
+		}.bind(this));
 	},
 
 	getPlaylistAtIndex: function(n) {
@@ -61,7 +59,8 @@ window.PlaylistResultView = Backbone.View.extend({
 	template: JST["templates/playlist_element"],
 
 	events: {
-		"click .playlist-cell-template" : "displayPlaylist"
+		"click .playlist-name" : "displayPlaylist",
+		"click .playlist-creator" : "displayUser"
 	},
 
 	className: "playlist-result-container",
@@ -78,6 +77,10 @@ window.PlaylistResultView = Backbone.View.extend({
 
 	displayPlaylist: function() {
 		window.WatchPage.PlaylistView.getPlaylist(this.model.get("id"));
+	},
+	
+	displayUser: function() {
+		window.location.href = "/users/" + this.model.get("user").id;
 	}
 });
 
@@ -322,9 +325,63 @@ window.VideoResultView = Backbone.View.extend({
 	}
 });
 
-window.WatchView = Backbone.View.extend({
+window.CategoryView = Backbone.View.extend({
+	
+	el: "#category-container",
+	
+	events: {
+		"click #category-nav-left" : "switchCategoryLeft",
+		"click #category-nav-right" : "switchCategoryRight"
+	},
+	
 	initialize: function() {
+		this.categories = this.options.categories;
+		this.selectedCategoryIndex = 0; //default
+		this.getCategoryPlaylists();
+	},
+	
+	switchCategoryLeft: function() {
+		if (this.selectedCategoryIndex == 0) {
+			this.selectedCategoryIndex = this.categories.length - 1;
+		} else {
+			this.selectedCategoryIndex -= 1;
+		}
+		this.getCategoryPlaylists();
+	},
+	
+	switchCategoryRight: function() {
+		if (this.selectedCategoryIndex == this.categories.length - 1) {
+			this.selectedCategoryIndex = 0;
+		} else {
+			this.selectedCategoryIndex += 1;
+		}
+		this.getCategoryPlaylists();
+	},
+	
+	getCategoryPlaylists: function() {
+		this.category = this.categories[this.selectedCategoryIndex];
+		$(this.el).find("#category-title").html(this.category.name);
+		$.ajax({
+			url: "api/playlists_for_category?id=" + this.category.id,
+			success: this.loadCategoryPlaylists.bind(this)
+		});
+	},
+	
+	loadCategoryPlaylists: function(model, response) {
+		this.options.playlistsView.model.processPlaylistsData(JSON.parse(model.playlists));
+	}
+	
+});
+
+window.WatchView = Backbone.View.extend({
+	initialize: function() {		
 		this.PlaylistsView = new PlaylistsView();
+		
+		this.CategoryView = new CategoryView({ 
+			"categories" : this.options.categories,
+			"playlistsView" : this.PlaylistsView
+		});
+		
 		this.PlaylistView = new PlaylistView({
 			//playlistId: this.PlaylistsView.getPlaylistAtIndex(0)
 		});
