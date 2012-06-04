@@ -90,8 +90,10 @@ class WatchController < ApplicationController
 	end
 
   def playlists_by_category
-    playlists = Playlist.find_all_by_category(params[:id])
-    render :json => playlists
+    playlists = Playlist.includes(:user).find_all_by_category(params[:id])
+    render :json => {
+      "playlists" => playlists.to_json(:include => :user)
+    }
   end
   
 end

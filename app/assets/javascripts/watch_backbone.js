@@ -31,8 +31,6 @@ window.PlaylistsView = Backbone.View.extend({
 		this.model = new PlaylistsModel({
 			playlists: this.playlists
 		});
-
-		this.model.getPlaylists();
 	},
 
 	addPlaylistResultView: function(playlistResult) {
@@ -61,7 +59,8 @@ window.PlaylistResultView = Backbone.View.extend({
 	template: JST["templates/playlist_element"],
 
 	events: {
-		"click .playlist-cell-template" : "displayPlaylist"
+		"click .playlist-name" : "displayPlaylist",
+		"click .playlist-creator" : "displayUser"
 	},
 
 	className: "playlist-result-container",
@@ -78,6 +77,10 @@ window.PlaylistResultView = Backbone.View.extend({
 
 	displayPlaylist: function() {
 		window.WatchPage.PlaylistView.getPlaylist(this.model.get("id"));
+	},
+	
+	displayUser: function() {
+		window.location.href = "/users/" + this.model.get("user").id;
 	}
 });
 
@@ -365,7 +368,7 @@ window.CategoryView = Backbone.View.extend({
 	},
 	
 	loadCategoryPlaylists: function(model, response) {
-		this.options.playlistsView.model.processPlaylistsData(model);
+		this.options.playlistsView.model.processPlaylistsData(JSON.parse(model.playlists));
 	}
 	
 });
