@@ -1,5 +1,5 @@
 class Playlist < ActiveRecord::Base
-  attr_accessible :name, :upvotes, :downvotes, :category, :description
+  attr_accessible :name, :upvotes, :downvotes, :category, :description, :user
 
   has_many :orderings
   has_many :videos, :through => :orderings

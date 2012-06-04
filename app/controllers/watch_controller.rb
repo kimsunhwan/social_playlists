@@ -2,7 +2,8 @@ class WatchController < ApplicationController
 
 	def watch
 		@playlist = Playlist.find(1)
-		@video = @playlist.videos[0];
+		@video = @playlist.videos[0]
+		@categories = Category.find(:all)
 	end
 
 	def get_playlists_data
@@ -88,4 +89,9 @@ class WatchController < ApplicationController
 			VideoDownvote.where("video_id = ? AND user_id = ?", video_id, user_id).length > 0
 	end
 
+  def playlists_by_category
+    playlists = Playlist.find_all_by_category(params[:id])
+    render :json => playlists
+  end
+  
 end
