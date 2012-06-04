@@ -6,7 +6,8 @@
 		<img id="thumbnail<%= id %>" src="http://img.youtube.com/vi/<%= site_code %>/default.jpg" alt="<%= name %>" />
 	</div>
 	<div class="video-votes-container">
-		<span class="video-votes" id="video-upvotes-<%= id %>"><%= upvotes %></span> 
-		<span class="video-votes" id="video-downvotes-<%= id %>"><%= downvotes %></span>
+		<div class="video-votes" id="video-upvotes-<%= id %>" style="background:0% 50% no-repeat url('/images/upvote-14px.png')"></div> 
+		<div class="video-votes" id="video-downvotes-<%= id %>" style="background:0% 50% no-repeat url('/images/downvote-14px.png')"></div>
+	  <div class="video-votes-count" id="video-votes-count-<%= id %>"><%= upvotes - downvotes%></div>
 	</div>
 </div>
