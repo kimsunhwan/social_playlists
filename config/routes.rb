@@ -29,6 +29,8 @@ SampleApp::Application.routes.draw do
   match '/api/upvote_video', to: 'watch#upvote_video'
   match '/api/downvote_video', to: 'watch#downvote_video'
   match '/api/playlists_for_category', to: 'watch#playlists_by_category'
+
+  match '/api/recently_created_playlists', to: 'playlists#get_recently_created_playlists'
   
   match '/api/users_playlists', to: 'playlists#users_playlists'
   match '/api/playlists_videos', to: 'playlists#playlists_videos'

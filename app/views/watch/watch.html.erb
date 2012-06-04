@@ -68,7 +68,10 @@
 	  });
 	}
   $(function() {
-    window.WatchPage = new WatchView({"categories": <%= @categories.to_json.html_safe -%>});
+    window.WatchPage = new WatchView({
+    	"categories": <%= @categories.to_json.html_safe -%>,
+    	"playlistId": <%= @playlist.id %>
+    });
 	});
 
 	var newCommentField = document.getElementById('new-comment-input');

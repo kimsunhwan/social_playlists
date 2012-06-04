@@ -85,4 +85,9 @@ class PlaylistsController < ApplicationController
     render :json => { :success => playlist }
     
   end
+
+  def get_recently_created_playlists
+    playlists = Playlist.order(:created_at)
+    render :json => playlists
+  end
 end

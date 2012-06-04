@@ -219,7 +219,7 @@ window.PlaylistView = Backbone.View.extend({
 		//this.model.getPlaylist(this.options[0].id);
 		//this.model.getPlaylist(this.currentPlaylistId);
 
-		this.getPlaylist(1);
+		this.getPlaylist(this.options.playlistId);
 	},
 
 	getPlaylist: function(id) {
@@ -341,7 +341,7 @@ window.CategoryView = Backbone.View.extend({
 	},
 	
 	switchCategoryLeft: function() {
-		if (this.selectedCategoryIndex == 0) {
+		if (this.selectedCategoryIndex === 0) {
 			this.selectedCategoryIndex = this.categories.length - 1;
 		} else {
 			this.selectedCategoryIndex -= 1;
@@ -374,16 +374,16 @@ window.CategoryView = Backbone.View.extend({
 });
 
 window.WatchView = Backbone.View.extend({
-	initialize: function() {		
+	initialize: function() {
 		this.PlaylistsView = new PlaylistsView();
 		
-		this.CategoryView = new CategoryView({ 
+		this.CategoryView = new CategoryView({
 			"categories" : this.options.categories,
 			"playlistsView" : this.PlaylistsView
 		});
 		
 		this.PlaylistView = new PlaylistView({
-			//playlistId: this.PlaylistsView.getPlaylistAtIndex(0)
+			"playlistId": this.options.playlistId
 		});
 		this.CommentsView = new CommentsView();
 		this.PlayerView = new PlayerView();

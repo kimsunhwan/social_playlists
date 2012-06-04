@@ -1,7 +1,11 @@
 class WatchController < ApplicationController
 
 	def watch
-		@playlist = Playlist.find(1)
+		if params[:playlist] then
+			@playlist = Playlist.find(params[:playlist])
+		else
+			@playlist = Playlist.first
+		end
 		@video = @playlist.videos[0]
 		@categories = Category.find(:all)
 	end
