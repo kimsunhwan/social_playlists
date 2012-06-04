@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120601223248) do
+ActiveRecord::Schema.define(:version => 20120604221203) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(:version => 20120601223248) do
     t.string   "description"
     t.boolean  "private"
     t.integer  "category"
+    t.datetime "last_viewed"
+    t.integer  "views"
   end
 
   create_table "playlists_videos", :force => true do |t|

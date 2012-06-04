@@ -245,6 +245,9 @@ window.PlaylistView = Backbone.View.extend({
 		this.currentVideoId = this.videos.at(0).get("id");
 		this.currentVideoNumber = 0;
 		window.WatchPage.PlayerView.playVideo(this.currentVideoId, this.videos.at(0).get("site_code"));
+
+		this.updatePlaylistViews();
+		this.updateVideoViews();
 	},
 
 	setCurrentVideo: function(video_id) {
@@ -256,6 +259,31 @@ window.PlaylistView = Backbone.View.extend({
 				break;
 			}
 		}
+	},
+
+	updatePlaylistViews: function() {
+		var url = "/api/update_playlist_views";
+		var attributes = { id: this.currentPlaylistId };
+		$.ajax({
+			url: url,
+			success: function() {},
+			type: "POST",
+			data: attributes
+		});
+	},
+
+	updateVideoViews: function() {
+		var url = "/api/update_video_views";
+		var attributes = {
+			id: this.currentVideoId,
+			playlistId: this.currentPlaylistId
+		};
+		$.ajax({
+			url: url,
+			success: function() {},
+			type: "POST",
+			data: attributes
+		});
 	},
 
 	/*
@@ -288,6 +316,8 @@ window.PlaylistView = Backbone.View.extend({
 			window.WatchPage.PlayerView.playVideo(this.currentVideoId, video.get("site_code"));
 
 			window.WatchPage.CommentsView.resetCommentView();
+
+			this.updateVideoViews();
 		}
 	},
 
@@ -322,6 +352,8 @@ window.VideoResultView = Backbone.View.extend({
 		window.WatchPage.PlayerView.playVideo(this.model.get("id"), this.model.get("site_code"));
 
 		window.WatchPage.CommentsView.resetCommentView();
+
+		window.WatchPage.PlaylistView.updateVideoViews();
 	}
 });
 
