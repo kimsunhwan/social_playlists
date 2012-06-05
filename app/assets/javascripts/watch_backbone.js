@@ -117,7 +117,7 @@ window.CommentsView = Backbone.View.extend({
 		var obj = this;
 		$('#tabs-container').bind('tabsselect', function(event, ui) {
 			if (ui.index === 1) {
-				obj.getComments();
+				obj.resetCommentView();
 			}
 		});
 	},
@@ -406,6 +406,112 @@ window.CategoryView = Backbone.View.extend({
 	
 });
 
+window.PlaylistInfoView = Backbone.View.extend({
+	initialize: function() {
+		this.playlistView = this.options.playlistView;
+		this.getPlaylistInfo(this.playlistView.currentPlaylistId);
+
+		// bind action to fetch comments when tab is clicked
+		var obj = this;
+		$('#tabs-container').bind('tabsselect', function(event, ui) {
+			if (ui.index === 2) {
+				obj.resetPlaylistInfoView();
+			}
+		});
+	},
+
+	getPlaylistInfo: function(id) {
+		$.ajax({
+			url: '/api/playlist_info?id=' + id,
+			success: this.displayPlaylistInfo.bind(this)
+		});
+	},
+
+	displayPlaylistInfo: function(data) {
+		if (data && data.description) {
+			$('#playlist-description').html(data.description);
+		}
+	},
+
+	resetPlaylistInfoView: function() {
+		this.getPlaylistInfo(this.playlistView.currentPlaylistId);
+	}
+});
+
+window.RatingsModel = Backbone.Model.extend({
+	getRatings: function() {
+		var url = "api/playlist_ratings?id=" + window.WatchPage.PlaylistView.currentPlaylistId;
+		$.ajax({
+			url: url,
+			success: this.processRatings.bind(this)
+		});
+	},
+
+	processRatings: function(data) {
+		var results = [];
+		for (var i = 0; i < data.length; i++) {
+			results.push(data[i]);
+		}
+		this.get("ratings").add(results);
+	}
+});
+
+window.RatingsView = Backbone.View.extend({
+	el: "#playlist-ratings-container",
+
+	initialize: function() {
+		this.ratings = new Backbone.Collection();
+		this.ratings.on("add", this.addRatingView);
+		this.ratings.on("reset", this.resetRatingsView.bind(this));
+		this.model = new RatingsModel({
+			ratings: this.ratings
+		});
+
+		// bind action to fetch comments when tab is clicked
+		var obj = this;
+		$('#tabs-container').bind('tabsselect', function(event, ui) {
+			if (ui.index === 2) {
+				obj.resetRatingsView();
+			}
+		});
+	},
+
+	addRatingView: function(ratingResult) {
+		new RatingView({
+			model: ratingResult
+		});
+	},
+
+	resetRatingsView: function() {
+		$("#playlist-ratings").empty();
+		this.getRatings();
+	},
+
+	getRatings: function() {
+		this.model.getRatings();
+	},
+
+	newRating: function() {
+		this.resetRatingsView();
+	}
+});
+
+window.RatingView = Backbone.View.extend({
+	template: JST["templates/playlist_rating_element"],
+
+	className: "playlist-rating-container",
+
+	initialize: function() {
+		this.render();
+	},
+
+	render: function() {
+		$(this.el).html(this.template(this.model.toJSON()));
+		$("#playlist-ratings").append(this.el);
+		return this;
+	}
+});
+
 window.WatchView = Backbone.View.extend({
 	initialize: function() {
 		this.PlaylistsView = new PlaylistsView();
@@ -421,7 +527,13 @@ window.WatchView = Backbone.View.extend({
 		this.CommentsView = new CommentsView();
 		this.PlayerView = new PlayerView();
 
-		// create the playlists/comments tab
+		this.PlaylistInfoView = new PlaylistInfoView({
+			"playlistView" : this.PlaylistView
+		});
+
+		this.RatingsView = new RatingsView();
+
+		// create the playlists/comments/info tabs
 		$(function() {
 			$("#tabs-container").tabs({ fx: { height: 'toggle', opacity: 'toggle' } });
 		});

@@ -1,7 +1,7 @@
 class WatchController < ApplicationController
 
 	def watch
-		if params[:playlist] then
+		if params[:playlist] && Playlist.exists?(params[:playlist]) then
 			@playlist = Playlist.find(params[:playlist])
 		else
 			@playlist = Playlist.first
@@ -21,6 +21,26 @@ class WatchController < ApplicationController
 		render :json => Playlist.find(params[:id]).videos(:include => :ordering).order('"playlists_videos"."order" ASC')
 	end
 
+	def get_playlist_info
+		playlist = Playlist.find(params[:id])
+		render :json => playlist
+	end
+
+	def get_playlist_ratings
+		ratings = Playlist.find(params[:id]).playlist_ratings.order('created_at ASC')
+
+		formatted = Array.new
+		ratings.each do |r|
+			rating = Hash.new
+			rating[:user] = r.user.name
+			rating[:comment] = r.comment
+			rating[:rating] = r.rating
+			formatted << rating
+		end
+
+		render :json => formatted
+	end
+
 	def get_video_data
 		video = Video.find(params[:id])
 		render :json => video
@@ -34,7 +54,7 @@ class WatchController < ApplicationController
 			comment = Hash.new
 			comment[:comment] = c.comment
 			comment[:user] = c.user.name
-			comment[:timestamp] = c.created_at
+			comment[:timestamp] = c.created_at.to_formatted_s
 			formatted << comment
 		end
 

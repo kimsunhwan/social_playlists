@@ -12,16 +12,17 @@
 	</div>
 	<div id="tabs-container">
 		<ul>
-			<li><a href="#playlist-results"><span>Playlists</span></a></li>
+			<li><a href="#playlists-container"><span>Playlists</span></a></li>
 			<li><a href="#video-comments-container"><span>Comments</span></a></li>
+			<li><a href="#playlist-info-container"></span>Info</span></a></li>
 		</ul>
 		<div id="playlists-container">
 		  <div id="category-container">
 		    <table>
 		      <tr id="category-header">
-		        <td id="category-nav-left"><</td>
+		        <td id="category-nav-left">&lt;</td>
 		        <td id="category-title"></td>
-		        <td id="category-nav-right">></td>
+		        <td id="category-nav-right">&gt;</td>
 		      </tr>
 		    </table>
 		  </div>
@@ -36,6 +37,30 @@
 					<input id="new-comment-input" type="text" placeholder="Write a comment..." />
 				</div>
 			<% end %>
+		</div>
+		<div id="playlist-info-container">
+			<div id="playlist-description-container">
+				Description:
+				<div id="playlist-description"><%= @playlist.description %></div>
+			</div>
+			<div id="playlist-ratings-container">
+				Ratings:
+				<div id="playlist-ratings"></div>
+				<div id="new-playlist-rating">
+					<form>
+						<select name="playlist-rating-rating">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+						<textarea id="playlist-rating-comment" rows="3" cols="10">
+						</textarea>
+						<input type="submit" value="Submit" />
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div id="playlist-container">
