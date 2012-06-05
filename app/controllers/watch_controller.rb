@@ -129,7 +129,7 @@ class WatchController < ApplicationController
   	p = Playlist.find(params[:id])
   	p.views += 1
 
-  	if p.save && (!pu || pu.save) then
+  	if p.save then
   		render :json => { :success => true }
   	else
   		render :json => { :success => false }

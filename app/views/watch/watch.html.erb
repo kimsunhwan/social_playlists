@@ -66,32 +66,33 @@
 	    playerVars: {'autoplay': '1', 'enablejsapi': '1'},
 	  	events: {'onStateChange': 'playNextVideo'}
 	  });
-	}
-  $(function() {
-    window.WatchPage = new WatchView({
-    	"categories": <%= @categories.to_json.html_safe -%>,
-    	"playlistId": <%= @playlist.id %>
-    });
-	});
 
-	var newCommentField = document.getElementById('new-comment-input');
-	if (newCommentField != null) {
-		newCommentField.onkeypress = function(event) {
-			newComment(event, this);
+		$(function() {
+	    window.WatchPage = new WatchView({
+	    	"categories": <%= @categories.to_json.html_safe -%>,
+	    	"playlistId": <%= @playlist.id %>
+	    });
+		});
+
+		var newCommentField = document.getElementById('new-comment-input');
+		if (newCommentField != null) {
+			newCommentField.onkeypress = function(event) {
+				newComment(event, this);
+			}
 		}
-	}
 
-	var upvote = document.getElementById('video-upvote-button');
-	var downvote = document.getElementById('video-downvote-button');
+		var upvote = document.getElementById('video-upvote-button');
+		var downvote = document.getElementById('video-downvote-button');
 
-	if (upvote != null) {
-		upvote.onclick = function(event) {
-			voteCurrentVideo(1);
+		if (upvote != null) {
+			upvote.onclick = function(event) {
+				voteCurrentVideo(1);
+			}
 		}
-	}
-	if (downvote != null) {
-		downvote.onclick = function(event) {
-			voteCurrentVideo(-1);
+		if (downvote != null) {
+			downvote.onclick = function(event) {
+				voteCurrentVideo(-1);
+			}
 		}
 	}
 </script>

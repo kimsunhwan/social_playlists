@@ -45,6 +45,15 @@ class User < ActiveRecord::Base
   def unfollow!(other_user)
     self.relationships.find_by_followed_id(other_user.id).destroy
   end
+
+  def get_recently_watched
+    pu = self.playlist_users.order('last_viewed DESC')
+    playlists = []
+    pu.each do |p|
+      playlists << p.playlist
+    end
+    return playlists
+  end
   
   private
     def create_remember_token

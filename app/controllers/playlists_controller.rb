@@ -91,4 +91,8 @@ class PlaylistsController < ApplicationController
   def get_recently_created_playlists
     render :json => Playlist.get_recently_created
   end
+
+  def get_user_recently_watched_playlists
+    render :json => current_user.get_recently_watched
+  end
 end

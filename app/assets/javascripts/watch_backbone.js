@@ -167,8 +167,9 @@ window.PlayerView = Backbone.View.extend({
 		this.currentVideoId = id;
 		//don't know if this is the best logic. I added this check cause it would otherwise error everytime the page loaded
 		// -anthony
-		if (window.player)
+		if (typeof window.player.loadVideoById == "function") {
 			window.player.loadVideoById(site_code);
+		}
 	},
 
 	getCurrentVideoId: function() {
