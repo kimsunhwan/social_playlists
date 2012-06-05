@@ -41,6 +41,23 @@ class WatchController < ApplicationController
 		render :json => formatted
 	end
 
+	def new_playlist_rating
+		if !current_user || user_has_rated_playlist?(current_user.id, params[:id]) then
+			render :json => nil
+			return
+		end
+		r = PlaylistRating.new(:playlist_id => params[:id], :user_id => current_user.id, :rating => params[:rating], :comment => params[:comment])
+		current_user.playlist_ratings << r
+		r.save
+		current_user.save
+
+		render :json => nil
+	end
+
+	def user_has_rated_playlist?(user_id, playlist_id) 
+		return PlaylistRating.where("playlist_id = ? AND user_id = ?", playlist_id, user_id).length > 0
+	end
+
 	def get_video_data
 		video = Video.find(params[:id])
 		render :json => video

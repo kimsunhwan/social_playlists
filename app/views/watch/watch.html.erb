@@ -46,20 +46,22 @@
 			<div id="playlist-ratings-container">
 				Ratings:
 				<div id="playlist-ratings"></div>
-				<div id="new-playlist-rating">
-					<form>
-						<select name="playlist-rating-rating">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-						</select>
-						<textarea id="playlist-rating-comment" rows="3" cols="10">
-						</textarea>
-						<input type="submit" value="Submit" />
-					</form>
-				</div>
+				<% if current_user then %>
+					<div id="new-playlist-rating">
+						<form action="javascript:submitRating()">
+							<select id='playlist-rating-rating' name="playlist-rating-rating">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+							<textarea id="playlist-rating-comment" rows="3" cols="10">
+							</textarea>
+							<input type="submit" value="New Rating" />
+						</form>
+					</div>
+				<% end %>
 			</div>
 		</div>
 	</div>

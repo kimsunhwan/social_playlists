@@ -637,3 +637,18 @@ function videoVoted(videoId, n, response) {
 	}
 	vote.innerHTML = (parseInt(vote.innerHTML, 10) + 1) + "";
 }
+
+function submitRating() {
+	var attributes = {
+		id: window.WatchPage.PlaylistView.currentPlaylistId,
+		rating: document.getElementById('playlist-rating-rating').value,
+		comment: document.getElementById('playlist-rating-comment').value
+	};
+	var url = "/api/submit_rating";
+	$.ajax({
+		url: url,
+		success: function(response) { window.WatchPage.RatingsView.newRating(); },
+		method: "POST",
+		data: attributes
+	});
+}
