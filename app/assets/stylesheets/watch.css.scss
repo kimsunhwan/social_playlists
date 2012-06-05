@@ -84,6 +84,7 @@
 }
 
 #watch-root #playlists-container {
+  border-top: 1px solid #EEEEEE;
   float: right;
   position: relative;
   top: -8px;
@@ -95,6 +96,32 @@
 	font-size: 16px;
 }
 
+.playlist-cell-template {
+  height: 40px;
+  .color-hover {
+    width: 4px;
+    height: 100%;
+    float: left;
+  }
+  .playlist-info-container {
+    margin-left: 8px;
+    .playlist-name {
+    
+    }
+    .playlist-creator {
+      font-size: 12px;
+      color: #00B4FF;
+    }
+  }
+  
+}
+
+
+.playlist-cell-template:hover {
+  .color-hover {
+    background-color:  #00B4FF;
+  }
+}
 
 div#videos-container {
   float: left;
@@ -183,9 +210,9 @@ div#videos-container {
       float: left;
       a {
         padding: 4px;
-        border-top: 1px solid #818181;
-        border-left: 1px solid #818181;
-        border-right: 1px solid #818181;
+        border-top: 1px solid #EEEEEE;
+        border-left: 1px solid #EEEEEE;
+        border-right: 1px solid #EEEEEE;
       }
     }
   }
