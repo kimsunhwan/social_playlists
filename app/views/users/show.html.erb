@@ -14,30 +14,6 @@
     </section>
   </aside>
   <div class="span8">
-    <div id="user-playlists">
-    	<h3>Created</h3>
-    	<% if @user.playlists.any? %>
-
-    	<% else %>
-    		No playlists have been created.
-    	<% end %>
-    </div>
-    <div id="watched-playlists">
-    	<h3>Watched</h3>
-    	<% if @user.playlists.any? %>
-
-    	<% else %>
-    		No recently watched playlists.
-    	<% end %>
-    </div>
-    <div id="commented-videos">
-    	<h3>Commented</h3>
-    	<% if @user.playlists.any? %>
-
-    	<% else %>
-    		Haven't commented on any videos.
-    	<% end %>
-    </div>
+    <%= render 'feed' %>
   </div>
-  <%= render 'feed' if @feeds %>
 </div>

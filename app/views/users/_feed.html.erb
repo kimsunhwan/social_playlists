@@ -15,4 +15,12 @@
   		<% end %>
   	<% end %>
   </div>
+  <div class="feed-container" id="followed-users-feed">
+  	<h3>Followed</h3>
+  	<% @followed_feed.each do |p| %>
+  		<% if !p.videos.empty? then %>
+  		<div class="feed-playlist" onclick="redirect('/watch?playlist=<%= p.id %>')"><%= p.name %></div>
+  		<% end %>
+  	<% end %>
+  </div>
 </div>
