@@ -50,6 +50,9 @@ class PlaylistsController < ApplicationController
     if !video then
       video = Video.new(:name => params[:name], :length => params[:length], 
         :upvotes => 0, :downvotes => 0, :type_id => 1, :views => 0, :site_code => params[:videoId])
+    end
+
+    if !playlist.videos.include?(video) then
       playlist.videos << video
       video.save
       playlist.save
