@@ -30,10 +30,12 @@ ActiveRecord::Schema.define(:version => 20120604225745) do
   end
 
   create_table "playlist_ratings", :force => true do |t|
-    t.integer "user_id"
-    t.integer "playlist_id"
-    t.integer "rating"
-    t.string  "comment"
+    t.integer  "user_id"
+    t.integer  "playlist_id"
+    t.integer  "rating"
+    t.string   "comment"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "playlist_users", :force => true do |t|
@@ -95,9 +97,11 @@ ActiveRecord::Schema.define(:version => 20120604225745) do
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
 
   create_table "video_comments", :force => true do |t|
-    t.integer "video_id"
-    t.integer "user_id"
-    t.string  "comment"
+    t.integer  "video_id"
+    t.integer  "user_id"
+    t.string   "comment"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "video_downvotes", :force => true do |t|

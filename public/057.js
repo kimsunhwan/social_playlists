@@ -21,7 +21,7 @@ $(function() {
         if (index != -1 && i % 9 != 0) {
             prefix = btxtitle.substr(0, index);
             randomNum = Math.floor((Math.random() * 700) - 350);
-            newTitle = prefix + "<br /> " + (seedNum + randomNum) + " words";
+            newTitle = prefix + (seedNum + randomNum) + " words";
             $(images[i]).attr("bt-xtitle", newTitle);
             $(images[i]).attr("src", "/images/icons/2-points.png?1326845289");
         }

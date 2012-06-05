@@ -48,14 +48,8 @@ class PlaylistsController < ApplicationController
     newPosition = params[:newPosition]
 
     if !video then
-      video = Video.new(:name => params[:name], :length => params[:length], 
+      video = playlist.videos.create(:name => params[:name], :length => params[:length], 
         :upvotes => 0, :downvotes => 0, :type_id => 1, :views => 0, :site_code => params[:videoId])
-    end
-
-    if !playlist.videos.include?(video) then
-      playlist.videos << video
-      video.save
-      playlist.save
     end
 
     playlist.orderings.each do |o|
