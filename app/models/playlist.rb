@@ -6,8 +6,4 @@ class Playlist < ActiveRecord::Base
   belongs_to :user
   has_many :playlist_ratings
   has_many :playlist_users
-
-  def self.get_recently_created
-  	return Playlist.order("created_at DESC")
-  end
 end

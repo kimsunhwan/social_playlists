@@ -54,6 +54,10 @@ class User < ActiveRecord::Base
     end
     return playlists
   end
+
+  def get_recently_created
+    return self.playlists.order("created_at DESC")
+  end
   
   private
     def create_remember_token
