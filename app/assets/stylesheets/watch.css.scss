@@ -32,8 +32,10 @@
   border-top: 2px solid #EEEEEE;
   .video-cell-template {
     .video-votes-container {
+      background: rgba(0, 0, 0, 0.3);
       position: relative;
       float: left;
+      min-width: 54px;
       top: -28px;
       .video-votes {
         width: 14px;
