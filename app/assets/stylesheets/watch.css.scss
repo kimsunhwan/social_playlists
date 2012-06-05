@@ -84,12 +84,14 @@
 }
 
 #watch-root #playlists-container {
-	float: left;
-	width: 25%;
-	height: 390px;
-	background-color: white;
-	overflow: inherit;
-	margin-left: 16px;
+  float: right;
+  position: relative;
+  top: -8px;
+  width: 275px;
+  background-color: white;
+  height: 375px;
+  overflow-y: scroll;
+  border-left: 1px solid #EEEEEE;
 	font-size: 16px;
 }
 
@@ -137,4 +139,54 @@ div#videos-container {
 
 .comment-element-template {
   border: 1px solid black;
+}
+
+
+#video-comments-container {
+  float: right;
+  position: relative;
+  top: -374px;
+  width: 275px;
+  background-color: white;
+  height: 375px;
+  overflow-y: scroll;
+  border-left: 1px solid #EEEEEE;
+}
+
+#video-comments {
+   .video-comments-container {
+     border-top: 1px solid #EEEEEE;
+     height: 40px;
+     .comment-element-template {
+      border: none!important;
+       .comment-user {
+         color: #00B4FF;
+       }
+       .comment-timestamp {
+         display: none;
+       }
+       .comment-text {
+      
+       }
+     }
+   }
+ }
+
+#tabs-container {
+  height: 20px;
+  width: 300px;
+  float: right;
+  ul {
+    list-style: none;
+    float: left;
+    li {
+      float: left;
+      a {
+        padding: 4px;
+        border-top: 1px solid #818181;
+        border-left: 1px solid #818181;
+        border-right: 1px solid #818181;
+      }
+    }
+  }
 }

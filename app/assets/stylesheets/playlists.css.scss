@@ -7,9 +7,7 @@
   height: 40px;
 }
 
-.playlist-cell-container:hover {
-  background-color: #EEEEEE;
-}
+
 
 .video-cell-template:hover {
   opacity: .6;
@@ -50,7 +48,6 @@ div.search-result-container {
       float: right;
       margin-top: -32px;
       margin-right: -8px;
-      background-image:url('/images/uv.png');
       color: transparent;
       height: 12px;
       width: 10px;
@@ -61,7 +58,6 @@ div.search-result-container {
       float: right;
       margin-top: -18px;
       margin-right: -8px;
-      background-image:url('/images/dv.png');
       color: transparent;
       height: 12px;
       width: 10px;
@@ -70,6 +66,10 @@ div.search-result-container {
   .video-cell-options {
     cursor: pointer;
     position: relative;
+    height: 24px;
+    width: 14px;
+    top: -57px;
+    left: 306px;
   }
   &:hover {
     background-color: #EEEEEE;
@@ -190,7 +190,7 @@ img.preview-video {
   border: none;
   background-color: transparent;
   color: #00B4FF;
-  text-indent: -6px;
+  text-indent: -2px;
   font-size: 16px;
   margin-bottom: 4px;
 }
@@ -276,19 +276,27 @@ img.preview-video {
       div#playlists {
         .playlist-cell-container {
           .playlist-info {
+            height: 40px;
+            .color-hover {
+              width: 4px;
+              height: 100%;
+              float: left;
+            }
             .playlist-name {
-            
+              padding-top: 10px;
             }
             .cell-buttons {
-              float: right;
+              display: none;
             }
           }
         }
         .droppable-hover.droppable-active {
-            background-color: gray
+            background: rgba(0, 180, 255, 0.5);
+            color: white;
         }
         .droppable-active {
-          background-color: black
+          background-color: #00B4FF;
+          color: white;
         }
       }
     }
@@ -299,6 +307,8 @@ img.preview-video {
       }
     }
   }
+  
+
   
   #preview-modal-container {
     #preview-container {
@@ -324,6 +334,32 @@ img.preview-video {
       border-radius: 2px;
       border: 1px solid #CCCCCC;
       color: #EEEEEE;
+    }
+  }
+}
+
+.playlist-cell-container:hover {
+  .color-hover {
+    background-color:  #00B4FF;
+  }
+  .cell-buttons {
+    display: block!important;
+    width: 90px;
+    height: 20px;
+    position: relative;
+    top: -6px;
+    left: 250px;
+    font-size: 16px;
+    .edit-button, .destroy-button {
+      color: transparent;
+      height: 20px;
+      width: 20px;
+    }
+    .edit-button {
+      background: 0% 50% no-repeat url('/images/gear-16px.png');
+    }
+    .destroy-button {
+      background: 0% 50% no-repeat url('/images/trashcan-16px.png');
     }
   }
 }
