@@ -50,6 +50,9 @@ class PlaylistsController < ApplicationController
     if !video then
       video = Video.new(:name => params[:name], :length => params[:length], 
         :upvotes => 0, :downvotes => 0, :type_id => 1, :views => 0, :site_code => params[:videoId])
+    end
+
+    if !playlist.videos.include?(video) then
       playlist.videos << video
       video.save
       playlist.save
@@ -70,13 +73,12 @@ class PlaylistsController < ApplicationController
   
   def remove_video_from_playlist
     playlist = Playlist.find(params[:playlistId])
-    oldPosition = Ordering.find_by_playlist_id_and_video_id(params[:playlistId], params[:videoId]).order
+    oldPosition = Integer(Ordering.find_by_playlist_id_and_video_id(params[:playlistId], params[:videoId]).order)
     
     playlist.orderings.each do |o|
       if Integer(o.order) == oldPosition then
         o.destroy
-      end
-      if Integer(o.order) > oldPosition then
+      elsif Integer(o.order) > oldPosition then
         o.order -= 1
         o.save
       end
@@ -84,5 +86,13 @@ class PlaylistsController < ApplicationController
     
     render :json => { :success => playlist }
     
+  end
+
+  def get_recently_created_playlists
+    render :json => Playlist.get_recently_created
+  end
+
+  def get_user_recently_watched_playlists
+    render :json => current_user.get_recently_watched
   end
 end

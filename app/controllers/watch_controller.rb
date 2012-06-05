@@ -1,7 +1,11 @@
 class WatchController < ApplicationController
 
 	def watch
-		@playlist = Playlist.find(1)
+		if params[:playlist] then
+			@playlist = Playlist.find(params[:playlist])
+		else
+			@playlist = Playlist.first
+		end
 		@video = @playlist.videos[0]
 		@categories = Category.find(:all)
 	end
@@ -94,6 +98,42 @@ class WatchController < ApplicationController
     render :json => {
       "playlists" => playlists.to_json(:include => :user)
     }
+  end
+
+  def increment_video_views
+  	if !params[:id] || !Video.exists?(params[:id]) || !params[:playlistId] || !Playlist.exists?(params[:playlistId]) then
+  		render :json => { :success => false }
+  		return
+  	end
+  	v = Video.find(params[:id])
+  	v.views += 1
+
+  	# save the playlist's last viewed time for the current user
+  	if current_user then 
+  		p = PlaylistUser.where(:playlist_id => params[:playlistId], :user_id => current_user.id).first_or_create
+  		p.last_viewed = Time.new
+  	end
+
+  	if v.save && (!p || p.save) then
+  		render :json => { :success => true }
+  	else
+  		render :json => { :success => false }
+  	end
+  end
+
+  def increment_playlist_views
+  	if !params[:id] || !Playlist.exists?(params[:id]) then
+  		render :json => { :success => false }
+  		return
+  	end
+  	p = Playlist.find(params[:id])
+  	p.views += 1
+
+  	if p.save then
+  		render :json => { :success => true }
+  	else
+  		render :json => { :success => false }
+  	end
   end
   
 end

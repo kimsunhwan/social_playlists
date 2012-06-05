@@ -5,6 +5,7 @@ class UpdateOrderValuesInData < ActiveRecord::Migration
   	Ordering.all.each do |pv|
   		pv.update_attribute :order, count
   		count += 1
+      pv.save
   	end
   end
 

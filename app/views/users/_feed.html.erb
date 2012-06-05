@@ -1,0 +1,18 @@
+<div class="feeds-container">
+  <div class="feed-container" id="recently-created-feed">
+  	<h3>Recently Created</h3>
+    <% @recently_created.each do |p| %>
+    	<% if !p.videos.empty? then %>
+      	<div class="feed-playlist" onclick="redirect('/watch?playlist=<%= p.id %>')"><%= p.name %></div>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="feed-container" id="recently-watched-feed">
+  	<h3>Recently Watched</h3>
+  	<% @recently_watched.each do |p| %>
+  		<% if !p.videos.empty? then %>
+  		<div class="feed-playlist" onclick="redirect('/watch?playlist=<%= p.id %>')"><%= p.name %></div>
+  		<% end %>
+  	<% end %>
+  </div>
+</div>

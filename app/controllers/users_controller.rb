@@ -33,6 +33,11 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
+    if @user == current_user then 
+      @feeds = true
+      @recently_created = Playlist.get_recently_created
+      @recently_watched = current_user.get_recently_watched
+    end
   end
   
   def create

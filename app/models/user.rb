@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   has_many :reverse_relationships, foreign_key: "followed_id", class_name: "Relationship" 
   has_many :followed_users, through: :relationships, source: :followed
   has_many :followers, through: :reverse_relationships
+  has_many :playlist_users
 
   validates :name,  presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -43,6 +44,15 @@ class User < ActiveRecord::Base
   
   def unfollow!(other_user)
     self.relationships.find_by_followed_id(other_user.id).destroy
+  end
+
+  def get_recently_watched
+    pu = self.playlist_users.order('last_viewed DESC')
+    playlists = []
+    pu.each do |p|
+      playlists << p.playlist
+    end
+    return playlists
   end
   
   private
