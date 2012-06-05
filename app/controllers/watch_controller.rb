@@ -107,9 +107,14 @@ class WatchController < ApplicationController
   	end
   	v = Video.find(params[:id])
   	v.views += 1
-  	p = Playlist.find(params[:playlistId])
-  	p.last_viewed = Time.new
-  	if v.save && p.save then
+
+  	# save the playlist's last viewed time for the current user
+  	if current_user then 
+  		p = PlaylistUser.where(:playlist_id => params[:playlistId], :user_id => current_user.id).first_or_create
+  		p.last_viewed = Time.new
+  	end
+
+  	if v.save && (!p || p.save) then
   		render :json => { :success => true }
   	else
   		render :json => { :success => false }
@@ -122,9 +127,9 @@ class WatchController < ApplicationController
   		return
   	end
   	p = Playlist.find(params[:id])
-  	p.last_viewed = Time.new
   	p.views += 1
-  	if p.save then
+
+  	if p.save && (!pu || pu.save) then
   		render :json => { :success => true }
   	else
   		render :json => { :success => false }

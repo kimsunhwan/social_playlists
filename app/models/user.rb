@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   has_many :reverse_relationships, foreign_key: "followed_id", class_name: "Relationship" 
   has_many :followed_users, through: :relationships, source: :followed
   has_many :followers, through: :reverse_relationships
+  has_many :playlist_users
 
   validates :name,  presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

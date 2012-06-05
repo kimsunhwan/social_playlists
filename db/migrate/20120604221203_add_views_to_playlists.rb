@@ -2,7 +2,7 @@ class AddViewsToPlaylists < ActiveRecord::Migration
   def up
   	change_table :playlists do |t|
   		t.timestamp :last_viewed
-  		t.integer :views
+  		t.integer :views, :default => 0
   	end
 
   	Playlist.reset_column_information
