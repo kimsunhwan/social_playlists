@@ -96,6 +96,13 @@
 	font-size: 16px;
 }
 
+#playlist-info-container {
+  float: left;
+  position: relative;
+  top: -7px;
+  margin-left: 27px;
+}
+
 .playlist-cell-template {
   height: 40px;
   .color-hover {
@@ -172,7 +179,7 @@ div#videos-container {
 #video-comments-container {
   float: right;
   position: relative;
-  top: -374px;
+  top: -9px;
   width: 275px;
   background-color: white;
   height: 375px;
