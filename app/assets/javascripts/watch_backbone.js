@@ -628,14 +628,13 @@ function videoVoted(videoId, n, response) {
 	// if the vote didn't go through, don't update the votes
 	if (response.success === false) return;
 
-	var vote;
+	var vote = document.getElementById('video-votes-count-' + videoId);
 
 	if (n === 1) {
-		vote = document.getElementById('video-upvotes-' + videoId);
+		vote.innerHTML = (parseInt(vote.innerHTML, 10) + 1) + "";
 	} else {
-		vote = document.getElementById('video-downvotes-' + videoId);
+		vote.innerHTML = (parseInt(vote.innerHTML, 10) - 1) + "";
 	}
-	vote.innerHTML = (parseInt(vote.innerHTML, 10) + 1) + "";
 }
 
 function submitRating() {
