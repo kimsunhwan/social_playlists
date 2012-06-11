@@ -7,7 +7,9 @@
   height: 40px;
 }
 
-
+.ui-resizable-handle.ui-resizble-se {
+  display: none;
+}
 
 .video-cell-template:hover {
   opacity: .6;

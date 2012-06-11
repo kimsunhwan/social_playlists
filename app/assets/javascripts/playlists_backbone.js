@@ -248,7 +248,6 @@ window.CreatePlaylistsView = Backbone.View.extend({
 	},
 
 	playlistCreated: function(response) {
-		console.log(response);
 		response.tags = ["fake", "tags"];
 		this.playlistCollection.add(response);
 		this.createDialog.dialog("close");
@@ -401,6 +400,7 @@ window.PlaylistsCellView = Backbone.View.extend({
 	},
 
 	addVideoToPlaylist: function(event, ui) {
+		console.log("HERE I AM");
 		var attributes = {
 			newPosition: 0,
 			playlistId: this.model.get("id"),
@@ -447,7 +447,6 @@ window.VideoModel = Backbone.Model.extend({
 		buildup = [];
 		for (var i = 0; i < data.length; i++) {
 			item = data[i];
-			console.log(item);
 			var video = {
 				title: item.name,
 				videoId: item.site_code,
@@ -492,19 +491,21 @@ window.VideoView = Backbone.View.extend({
 
 	updatePosition: function(event, ui) {
 		// updates on client before callback from server is confirmed.
-		var videoId, playlistArray, newPosition, attributes;
+		var videoId, playlistArray, newPosition, attributes, name, length;
 		videoId = $(ui.item).attr("id");
 		if (!videoId) {
 			videoId = $(ui.item).attr("videoId");
 			$(ui.item).attr("id", videoId);
 			playlistArray = $(this.el).find("#videos").sortable("toArray");
 			newPosition = playlistArray.indexOf(videoId);
+			name = $(ui.item).find(".video-title").html()
+			length = $(ui.item).find(".video-duration").html();
 			attributes = {
 				playlistId: this.currentPlaylistId,
 				videoId: videoId,
 				thumb: ytIdToThumbnail(videoId),
-				duration: $(ui.item).find(".video-duration").html(),
-				title: $(ui.item).find(".video-title").html(),
+				duration: length,
+				title: name,
 				upvotes: 0,
 				downvotes: 0
 			};
@@ -530,7 +531,9 @@ window.VideoView = Backbone.View.extend({
 		attributes = {
 			newPosition: newPosition,
 			playlistId: this.currentPlaylistId,
-			videoId: videoId
+			videoId: videoId,
+			name: name,
+			length: length
 		};
 		$.ajax({
 			url: "api/add_video_to_playlist",
