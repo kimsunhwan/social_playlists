@@ -1,19 +1,16 @@
 <% provide(:title, @user.name) %>
-<div class="row">
-  <aside class="span4">
+<div>
+  <aside id='user-badge'>
     <section>
-      <%= gravatar_for @user %>
-      <h1><%= @user.name %></h1>
-      <span><%= link_to "view my profile", @user %></span>
-    </section>
-    <section>
+      <!-- <%= gravatar_for @user %> -->
+      <h1 id="user-page-name"><%= @user.name %></h1>
+      <!-- <span><%= link_to "view my profile", @user %></span> -->
       <%= render 'shared/stats' %>
-    </section>
     <section>
       <%= render "follow_form" if signed_in? %>
     </section>
   </aside>
-  <div class="span8">
+  <div id="user-feed">
     <%= render 'feed' %>
   </div>
 </div>

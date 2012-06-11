@@ -1,3 +1,28 @@
-// Place all the styles related to the Users controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#user-badge {
+  font-size: 20px;
+  .stats {
+    margin: 4px 0 4px 0;
+    font-size: 16px;
+  }
+}
+
+.feeds-container {
+  .feed-container {
+    margin-bottom: 10px;
+    .feed-playlist, .feed-container {
+      margin-top: 4px;
+      color: #00B4FF;
+      cursor: pointer;
+      font-size: 16px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  h3 {
+    font-size: 20px;
+  }
+}
+
+
