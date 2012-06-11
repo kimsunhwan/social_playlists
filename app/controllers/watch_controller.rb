@@ -138,7 +138,7 @@ class WatchController < ApplicationController
   end
   
   def recent_playlists
-    playlists = Playlist.includes(:user).limit(params[:limit]).order("created_at ASC")
+    playlists = Playlist.includes(:user).limit(params[:limit]).order("created_at DESC")
     render :json => {
       "playlists" => playlists.to_json(:include => :user)
     }
