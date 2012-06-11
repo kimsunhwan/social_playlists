@@ -312,6 +312,7 @@ window.PlaylistView = Backbone.View.extend({
 	playNextVideo: function() {
 		this.currentVideoNumber += 1;
 		if (this.currentVideoNumber < this.videos.length) {
+			// video wasn't the last in the playlist
 			var video = this.videos.at(this.currentVideoNumber);
 			this.currentVideoId = video.get("id");
 			window.WatchPage.PlayerView.playVideo(this.currentVideoId, video.get("site_code"));
@@ -319,6 +320,20 @@ window.PlaylistView = Backbone.View.extend({
 			window.WatchPage.CommentsView.resetCommentView();
 
 			this.updateVideoViews();
+		} else {
+			// video is the last in the playlist
+			var url = "/api/next_playlist?id=" + this.currentPlaylistId;
+			$.ajax({
+				url: url,
+				success: this.playNextPlaylist.bind(this)
+			});
+		}
+	},
+
+	playNextPlaylist: function(data) {
+		console.log(data);
+		if (data !== null) {
+			this.getPlaylist(data.id);
 		}
 	},
 
