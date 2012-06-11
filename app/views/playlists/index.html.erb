@@ -11,22 +11,22 @@
   </div>
 
   <div id="playlists-videos-container">
-    <div id="playlists-title">
-      Playlists
-    </div>
+    <div id='playlists-title-text'>Playlists</div>
+    <div id="playlists-title"></div>
     <div id="playlists-container">
       <button id="create-playlist-button">Create Playlist</button>
       <div id="create-playlist-container">
-        Name:<br/>
+        <div id="create-playlist-name-text">Name</div>
         <input type="text" id="create-playlist-name"></input>
-        Description:<br/>
+        <div id='create-playlist-description-text'>Description</div>
         <textarea id="create-playlist-description" rows="3" cols="40"></textarea>
+        <div id='create-playlist-category-text'>Category</div>
         <%= collection_select(:category, :id, @categories, :id, :name, options = {:prompt => "-Select a category"}, :class =>"category_dropdown") %>
-        Tags(comma separated):<br/>
+        <div id='create-playlist-tags-text'>Tags(comma separated)</div>
         <input type="text" id="create-playlist-tags"></input>
       </div>
-      <div id="confirm-playlist-delete" title="Delete playlist?">
-        <p>This playlist and its videos will be deleted permanently from your account.</p>
+      <div id="confirm-playlist-delete" title="Delete Playlist?">
+        <div id="confirm-playlist-delete-text'">Are you sure you want to delete this playlist?</div>
       </div>
       <div id="playlists"></div>
       <div id="create-playlist-modal"></div>

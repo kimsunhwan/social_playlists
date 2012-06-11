@@ -189,7 +189,7 @@ window.CreatePlaylistsView = Backbone.View.extend({
 
 	events: {
 		"click #create-playlist-button" : "openCreateDialog",
-		"click #playlists-title" : "removePlaylistNavigationAndView"
+		"click #playlists-title-text" : "removePlaylistNavigationAndView"
 	},
 
 	initialize: function() {
@@ -280,13 +280,13 @@ window.CreatePlaylistsView = Backbone.View.extend({
 	},
 
 	addPlaylistNavigation: function(playlistTitle) {
-		$(this.el).find("#playlists-title").text("Playlists > " + playlistTitle);
+		$(this.el).find("#playlists-title").text("> " + playlistTitle);
 		this.currentView = 2;
 	},
 
 	removePlaylistNavigationAndView: function() {
 		if (this.currentView == 2) {
-			$(this.el).find("#playlists-title").text("Playlists");
+			$(this.el).find("#playlists-title").text("");
 			$("#videos-container").hide("slide", { direction: "right" }, 1000);
 		}
 	}

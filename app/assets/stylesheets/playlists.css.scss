@@ -72,6 +72,9 @@ div.search-result-container {
     width: 14px;
     top: -57px;
     left: 306px;
+    .video-cell-remove:hover {
+      color: #00B4FF;
+    }
   }
   &:hover {
     background-color: #EEEEEE;
@@ -143,13 +146,20 @@ img.preview-video {
   display: none;
 }
 
-#playlists-title {
+#playlists-title-text {
+  float: left;
   text-indent: 4px;
   font-size: 20px;
   cursor: pointer;
+  margin-right: 6px;
   &:hover {
     text-decoration: underline;
   }
+}
+
+#playlists-title {
+  float: left;
+  font-size: 20px;
 }
 
 #videos-container {
@@ -178,6 +188,10 @@ img.preview-video {
   font-size: 16px;
   margin-top: -12px;
   text-indent: 2px;
+  input, textarea, select {
+    margin-top: 6px;
+    width: 319px;
+  }
 }
 
 #confirm-playlist-delete {
@@ -186,6 +200,7 @@ img.preview-video {
 
 .playlist-cell-container {
   margin-bottom: 6px;
+  cursor: pointer;
 }
 
 #create-playlist-button {
