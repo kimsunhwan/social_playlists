@@ -34,6 +34,7 @@ SampleApp::Application.routes.draw do
   match '/api/playlists_for_category', to: 'watch#playlists_by_category'
   match '/api/update_video_views', to: 'watch#increment_video_views'
   match '/api/update_playlist_views', to: 'watch#increment_playlist_views'
+  match '/api/recent_playlists', to: 'watch#recent_playlists'
 
   match '/api/user_recently_created_playlists', to: 'playlists#get_user_recently_created_playlists'
   match '/api/user_recently_watched_playlists', to: 'playlists#get_user_recently_watched_playlists'

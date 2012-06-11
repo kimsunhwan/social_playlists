@@ -136,6 +136,13 @@ class WatchController < ApplicationController
       "playlists" => playlists.to_json(:include => :user)
     }
   end
+  
+  def recent_playlists
+    playlists = Playlist.includes(:user).limit(params[:limit]).order("created_at ASC")
+    render :json => {
+      "playlists" => playlists.to_json(:include => :user)
+    }
+  end
 
   def increment_video_views
   	if !params[:id] || !Video.exists?(params[:id]) || !params[:playlistId] || !Playlist.exists?(params[:playlistId]) then

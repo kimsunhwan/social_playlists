@@ -369,12 +369,12 @@ window.CategoryView = Backbone.View.extend({
 	
 	initialize: function() {
 		this.categories = this.options.categories;
-		this.selectedCategoryIndex = 0; //default
+		this.selectedCategoryIndex = -1; //default
 		this.getCategoryPlaylists();
 	},
 	
 	switchCategoryLeft: function() {
-		if (this.selectedCategoryIndex === 0) {
+		if (this.selectedCategoryIndex == -1) {
 			this.selectedCategoryIndex = this.categories.length - 1;
 		} else {
 			this.selectedCategoryIndex -= 1;
@@ -384,7 +384,7 @@ window.CategoryView = Backbone.View.extend({
 	
 	switchCategoryRight: function() {
 		if (this.selectedCategoryIndex == this.categories.length - 1) {
-			this.selectedCategoryIndex = 0;
+			this.selectedCategoryIndex = -1;
 		} else {
 			this.selectedCategoryIndex += 1;
 		}
@@ -392,12 +392,20 @@ window.CategoryView = Backbone.View.extend({
 	},
 	
 	getCategoryPlaylists: function() {
-		this.category = this.categories[this.selectedCategoryIndex];
-		$(this.el).find("#category-title").html(this.category.name);
-		$.ajax({
-			url: "api/playlists_for_category?id=" + this.category.id,
-			success: this.loadCategoryPlaylists.bind(this)
-		});
+		if (this.selectedCategoryIndex == -1) {
+			$(this.el).find("#category-title").html("Recently Created");
+			$.ajax({
+				url: "api/recent_playlists?limit=" + 10,
+				success: this.loadCategoryPlaylists.bind(this)
+			});
+		} else {
+			this.category = this.categories[this.selectedCategoryIndex];
+			$(this.el).find("#category-title").html(this.category.name);
+			$.ajax({
+				url: "api/playlists_for_category?id=" + this.category.id,
+				success: this.loadCategoryPlaylists.bind(this)
+			});
+		}
 	},
 	
 	loadCategoryPlaylists: function(model, response) {
