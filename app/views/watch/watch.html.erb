@@ -13,8 +13,8 @@
 	<div id="tabs-container">
 		<ul>
 			<li><a href="#playlists-container"><span>Playlists</span></a></li>
-			<li><a href="#video-comments-container"><span>Comments</span></a></li>
-			<li><a href="#playlist-info-container"></span>Info</span></a></li>
+			<li><a href="#video-comments-container"><span>Video Comments</span></a></li>
+			<li><a href="#playlist-info-container"></span>Playlist Info</span></a></li>
 		</ul>
 		<div id="playlists-container">
 		  <div id="category-container">
@@ -40,25 +40,26 @@
 		</div>
 		<div id="playlist-info-container">
 			<div id="playlist-description-container">
-				Description:
+				<div id='playlist-description-title'>Description</div>
 				<div id="playlist-description"><%= @playlist.description %></div>
 			</div>
 			<div id="playlist-ratings-container">
-				Ratings:
 				<div id="playlist-ratings"></div>
 				<% if current_user then %>
 					<div id="new-playlist-rating">
+					  <div id='playlist-ratings-title'>Playlist Rating</div>
 						<form action="javascript:submitRating()">
 							<select id='playlist-rating-rating' name="playlist-rating-rating">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
+								<option value="1">1 star</option>
+								<option value="2">2 stars</option>
+								<option value="3">3 stars</option>
+								<option value="4">4 stars</option>
+								<option value="5">5 stars</option>
 							</select>
+							<div id='playlist-comment-title'>Comment</div>
 							<textarea id="playlist-rating-comment" rows="3" cols="10">
 							</textarea>
-							<input type="submit" value="New Rating" />
+							<input type="submit" value="Submit" />
 						</form>
 					</div>
 				<% end %>
