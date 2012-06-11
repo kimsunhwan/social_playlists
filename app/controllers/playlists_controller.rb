@@ -34,11 +34,9 @@ class PlaylistsController < ApplicationController
   end
   
   def create_playlist
-    playlist = Playlist.new(:name => params[:name], :upvotes => 0, :downvotes => 0, :category => params[:category], 
-      :description => params[:description])
-    current_user.playlists << playlist
+    playlist = current_user.playlists.new(:name => params[:name], :upvotes => 0, :downvotes => 0, :category => params[:category], 
+        :description => params[:description])
     playlist.save
-    current_user.save
     render :json => playlist
   end
   
@@ -48,11 +46,16 @@ class PlaylistsController < ApplicationController
     newPosition = params[:newPosition]
 
     if !video then
-      video = playlist.videos.create(:name => params[:name], :length => params[:length], 
+      video = playlist.videos.new(:name => params[:name], :length => params[:length], 
         :upvotes => 0, :downvotes => 0, :type_id => 1, :views => 0, :site_code => params[:videoId])
+      playlist.save
     end
-
+    puts "+++++++++++++"
+    puts video.id
     playlist.orderings.each do |o|
+      puts "==============="
+      puts o.video_id
+      puts o.order
       if o.video_id == video.id then
         o.order = newPosition
         o.save
