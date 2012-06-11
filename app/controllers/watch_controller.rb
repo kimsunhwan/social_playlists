@@ -144,6 +144,11 @@ class WatchController < ApplicationController
     }
   end
 
+  def next_playlist_in_category
+  	playlist = Playlist.where("id > ? AND category = ?", params[:id], Playlist.find(params[:id]).category).first
+  	render :json => playlist
+  end
+
   def increment_video_views
   	if !params[:id] || !Video.exists?(params[:id]) || !params[:playlistId] || !Playlist.exists?(params[:playlistId]) then
   		render :json => { :success => false }
