@@ -1,1 +1,1 @@
-Sample tutorial app
+Users can create, share, and collectively curate playlists and videos from youtube.
